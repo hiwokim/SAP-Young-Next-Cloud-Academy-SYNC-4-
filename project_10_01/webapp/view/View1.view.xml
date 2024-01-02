@@ -1,0 +1,46 @@
+<mvc:View controllerName="project1001.controller.View1"
+    xmlns:mvc="sap.ui.core.mvc" displayBlock="true"
+    xmlns:core="sap.ui.core"
+    xmlns:m="sap.m" xmlns:l="sap.ui.layout">
+    <m:Page id="page" title="{i18n>title}">
+        <m:content>
+            <l:VerticalLayout width="300px">
+                <m:Input id = "idInput1"/>
+                <m:Select id = "cal" width = "100%" showSecondaryValues="true">
+                    <m:items>
+                        <core:ListItem text = "+" key = "plus" additionalText="Plus"/>
+                        <core:ListItem text = "-" key = "minus" additionalText="minus"/>
+                        <core:ListItem text = "*" key = "multiple" additionalText="multiple"/>
+                        <core:ListItem text = "/" key = "divide" additionalText="divide"/>
+                    </m:items>
+                </m:Select>
+                <m:Input id = "idInput2"/>
+                <m:Button width = "100%" text ="실행"/>
+                
+            </l:VerticalLayout>
+ 
+        </m:content>
+            <m:footer>
+                <!-- Bar 타입을 가진 클래스를 적용할 수 있음-->
+                <m:Toolbar >
+                    <m:ToolbarSpacer />
+                    <m:Button text = "보내기" press="onClick"/>
+                </m:Toolbar>
+            </m:footer>
+    </m:Page>              
+</mvc:View>
+
+<!-- <Button text = "버튼" />
+                <Button text = "버튼" type = "Emphasized" />
+                <Button text = "버튼" type = "Accept" />
+                <Button text = "버튼" type = "Attention" />
+                <Button text = "버튼" type = "Back" />
+                <Button text = "버튼" type = "Critical" />
+                <Button text = "버튼" type = "Ghost" />
+                <Button text = "버튼" type = "Negative" />
+                <Button text = "버튼" type = "Neutral" />
+                <Button text = "버튼" type = "Reject" />
+                <Button text = "버튼" type = "Success" />
+                <Button text = "버튼" type = "Transparent" />
+                <Button text = "버튼" type = "Unstyled" />
+                <Button text = "버튼" type = "Up" /> -->

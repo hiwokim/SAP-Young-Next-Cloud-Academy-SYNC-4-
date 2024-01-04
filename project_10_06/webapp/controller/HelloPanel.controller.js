@@ -13,7 +13,6 @@ sap.ui.define([
             },
             onShowHello: function() {
                 sap.m.MessageToast.show('버튼클릭');
-                this.byId("oInput").setValue("안녕하세요");
             }
         });
         

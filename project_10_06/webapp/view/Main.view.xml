@@ -1,10 +1,15 @@
 <mvc:View controllerName="project1006.controller.Main"
     xmlns:mvc="sap.ui.core.mvc" displayBlock="true"
-    xmlns="sap.m">
+    xmlns="sap.m" xmlns:c="sap.ui.core">
     <Page id="page" title="{i18n>title}">
         <content>
             <Text text="여기는 Main.view.xml 입니다~~~~~"/>
+
+            <!-- Nested View (중첩 뷰) -->
             <mvc:XMLView viewName="project1006.view.HelloPanel"/>
+
+            <!-- fragment View (조각 뷰) -->
+            <c:Fragment fragmentName="project1006.view.fragment.HelloFrag" />
         </content>
     </Page>
 </mvc:View>

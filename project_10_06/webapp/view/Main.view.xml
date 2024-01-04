@@ -1,0 +1,10 @@
+<mvc:View controllerName="project1006.controller.Main"
+    xmlns:mvc="sap.ui.core.mvc" displayBlock="true"
+    xmlns="sap.m">
+    <Page id="page" title="{i18n>title}">
+        <content>
+            <Text text="여기는 Main.view.xml 입니다~~~~~"/>
+            <mvc:XMLView viewName="project1006.view.HelloPanel"/>
+        </content>
+    </Page>
+</mvc:View>

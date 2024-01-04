@@ -12,12 +12,12 @@ sap.ui.define([
                 new Button
             },
             OnClick: function(){
-                var input = this.getView().byId("input").getValue(); 
-                this.getView().byId("result").setText(input);
+                var input = this.byId("input").getValue(); 
+                this.byId("result").setText(input);
             },
             clear: function(){
-                this.getView().byId("input").setValue(" ")
-                this.getView().byId("result").setText(" ");
+                this.byId("input").setValue(null)
+                this.byId("result").setText(null);
             }
         });
     });

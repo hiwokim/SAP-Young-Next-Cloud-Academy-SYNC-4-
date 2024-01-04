@@ -1,0 +1,22 @@
+<mvc:View controllerName="project1004.controller.Main"
+    xmlns:mvc="sap.ui.core.mvc" displayBlock="true"
+    xmlns="sap.m">
+    <Page id="page" title="{i18n>title}">
+        <content>
+            <VBox>
+                <Button text = "버튼" />
+                <Input value = "입력창 입니다." />
+                <Text text="텍스트입니다."/>
+                <DatePicker />
+                <Select />
+                <ComboBox />
+                <DateRangeSelection />
+                <Label text="라벨입니다."/>
+                <StepInput />
+                <TimePicker />
+                <RadioButton />
+                <CheckBox />
+            </VBox>
+        </content>
+    </Page>
+</mvc:View>

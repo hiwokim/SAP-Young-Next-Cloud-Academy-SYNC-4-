@@ -3,7 +3,7 @@
     xmlns:m="sap.m" xmlns:l="sap.ui.layout">
     <m:Page id="page" title="{i18n>title}">
         <m:content>
-            <l:VerticalLayout>
+            <l:VerticalLayout width="300px">
                 <m:Input id = "input"/>
                 <m:Button text = "작성 완료" press = "OnClick"/>
                 <m:Text id = "result"/>

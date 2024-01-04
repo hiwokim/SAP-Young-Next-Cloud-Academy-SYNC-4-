@@ -1,46 +1,90 @@
 <mvc:View controllerName="project1001.controller.View1"
     xmlns:mvc="sap.ui.core.mvc" displayBlock="true"
-    xmlns:core="sap.ui.core"
-    xmlns:m="sap.m" xmlns:l="sap.ui.layout">
+    xmlns:core="sap.ui.core" 
+    xmlns="sap.ui.table"
+    xmlns:u="sap.ui.unified"
+    xmlns:m="sap.m" 
+    xmlns:l="sap.ui.layout"
+    xmlns:t="sap.m.Table">
     <m:Page id="page" title="{i18n>title}">
         <m:content>
-            <l:VerticalLayout width="300px">
-                <m:Input id = "idInput1"/>
-                <m:Select id = "cal" width = "100%" showSecondaryValues="true">
+            <l:VerticalLayout>
+                <l:HorizontalLayout >
+                    <m:Text text="Input 1" width="65px"/>
+                    <m:Input id = "idInput1" width="300px" type="Number"/>
+                </l:HorizontalLayout>
+                <l:HorizontalLayout>
+                    <m:Text text="수식 선택" width="65px"/>
+                    <m:Select id = "idSelect" width="300px" showSecondaryValues="true">
                     <m:items>
-                        <core:ListItem text = "+" key = "plus" additionalText="Plus"/>
+                        <core:ListItem text = "+" key = "plus" additionalText="plus"/>
                         <core:ListItem text = "-" key = "minus" additionalText="minus"/>
                         <core:ListItem text = "*" key = "multiple" additionalText="multiple"/>
                         <core:ListItem text = "/" key = "divide" additionalText="divide"/>
                     </m:items>
                 </m:Select>
-                <m:Input id = "idInput2"/>
-                <m:Button width = "100%" text ="실행"/>
+                </l:HorizontalLayout>
+                <l:HorizontalLayout >
+                    <m:Text text="Input 2" width="65px"/>
+                    <m:Input id = "idInput2" width="300px" type="Number"/>
+                </l:HorizontalLayout>
+                <l:HorizontalLayout>
+                    <m:Text text="" width="65px"/>
+                    <m:Button width = "300px" text ="실행" press="onClick"/>
+                </l:HorizontalLayout>
+                
                 
             </l:VerticalLayout>
- 
+            <!-- sap.ui.table.Table -->
+            <Table
+				rows="{/ProductCollection}"
+				selectionMode="MultiToggle"
+				paste="onPaste"
+				ariaLabelledBy="title">
+				<columns>
+					<Column width="11rem">
+						<m:Label text="Product Name" />
+						<template>
+							<m:Text text="{Name}" wrapping="false" />
+						</template>
+					</Column>
+				</columns>
+			</Table>
+
+            <!-- sap.m.Table -->
+            <m:Table id="idProductsTable">
+                <m:headerToolbar>
+                    <m:OverflowToolbar>
+                        <m:content>
+                            <m:Title text="Products" level="H2"/>
+                            <m:ToolbarSpacer />
+                        </m:content>
+                    </m:OverflowToolbar>
+                </m:headerToolbar>
+             
+                <m:columns>
+                    <m:Column>
+                        <m:Text text="Price" />
+                    </m:Column>
+                </m:columns>
+                <m:items>
+                    <m:ColumnListItem vAlign="Middle">
+                        <m:cells>
+                            <m:Text text="{SupplierName}" />
+                        </m:cells>
+                    </m:ColumnListItem>
+                </m:items>
+            </m:Table>
+            
         </m:content>
+            
             <m:footer>
                 <!-- Bar 타입을 가진 클래스를 적용할 수 있음-->
                 <m:Toolbar >
                     <m:ToolbarSpacer />
-                    <m:Button text = "보내기" press="onClick"/>
+                    <m:Button text = "보내기"/>
                 </m:Toolbar>
             </m:footer>
-    </m:Page>              
+    </m:Page>   
+               
 </mvc:View>
-
-<!-- <Button text = "버튼" />
-                <Button text = "버튼" type = "Emphasized" />
-                <Button text = "버튼" type = "Accept" />
-                <Button text = "버튼" type = "Attention" />
-                <Button text = "버튼" type = "Back" />
-                <Button text = "버튼" type = "Critical" />
-                <Button text = "버튼" type = "Ghost" />
-                <Button text = "버튼" type = "Negative" />
-                <Button text = "버튼" type = "Neutral" />
-                <Button text = "버튼" type = "Reject" />
-                <Button text = "버튼" type = "Success" />
-                <Button text = "버튼" type = "Transparent" />
-                <Button text = "버튼" type = "Unstyled" />
-                <Button text = "버튼" type = "Up" /> -->

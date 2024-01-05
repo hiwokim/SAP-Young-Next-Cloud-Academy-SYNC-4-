@@ -45,6 +45,6 @@ sap.ui.define([
 
                 //  car 라는 이름의 모델
                 // this.getView().setModel(oModel2, "car");
-            }
+            },
         });
     });

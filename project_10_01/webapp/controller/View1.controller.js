@@ -1,11 +1,12 @@
 sap.ui.define([
     "sap/ui/core/mvc/Controller", //api 가져오기
-    "sap/m/Button"
+    "sap/m/Button",
+    "sap/ui/model/json/JSONModel"
 ],
     /**
      * @param {typeof sap.ui.core.mvc.Controller} Controller
      */
-    function (Controller, Button) {
+    function (Controller, Button, JSONModel) {
         "use strict";
 
         return Controller.extend("project1001.controller.View1", {
@@ -16,8 +17,8 @@ sap.ui.define([
                 //초기값 설정, 화면에서 사용할 모델 생성
                 //아래 함수들이 사용할 공통 변수 등을 세팅
 
-                this.byId("idInput1").setValue("10"); // 화면 뜨자마자 초기 세팅
-                this.byId("idInput2").setValue("20"); // 화면 뜨자마자 초기 세팅
+                // this.byId("idInput1").setValue("10"); // 화면 뜨자마자 초기 세팅
+                // this.byId("idInput2").setValue("20"); // 화면 뜨자마자 초기 세팅
                 // this.getView().byId("idInput");
                 // -> idInput 객체가 없다고 오류가 날 수 있음
                 // -> 왜냐면, 화면이 아직 그려지기 전에 Init 함수가 실행해서
@@ -27,6 +28,17 @@ sap.ui.define([
                 // this.getOwnerComponent().getModel()
                 // -> Component 단으로 올라가기 위해서
                 //    getOwnerComponent() 를 사용
+
+                var oData = { 
+                    items : [
+                        { key : "plus", text : "+" ,additionalText : "Plus"},
+                        { key : "minus", text : "-" ,additionalText : "Minus"},
+                        { key : "multiple", text : "*" ,additionalText : "Multiple"},
+                        { key : "divide", text : "/" ,additionalText : "Divide"}
+                    ]
+                };
+                var oModel = new JSONModel(oData);
+                this.getView().setModel(oModel); 
             },
 
             onBeforRendering : function () {/*화면 그려지기 전 실행*/},

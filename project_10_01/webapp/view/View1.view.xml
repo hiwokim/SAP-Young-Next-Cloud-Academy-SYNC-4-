@@ -10,23 +10,21 @@
         <m:content>
             <l:VerticalLayout>
                 <l:HorizontalLayout >
-                    <m:Text text="Input 1" width="65px"/>
-                    <m:Input id = "idInput1" width="300px" type="Number"/>
+                    <m:Text text="Input 1" width="65px" textAlign="Center"/>
+                    <m:Input id = "idInput1" width="300px" type="Number" placeholder="값을 입력해주세요" textAlign="Center"/>
                 </l:HorizontalLayout>
                 <l:HorizontalLayout>
                     <m:Text text="수식 선택" width="65px"/>
-                    <m:Select id = "idSelect" width="300px" showSecondaryValues="true">
-                    <m:items>
-                        <core:ListItem text = "+" key = "plus" additionalText="plus"/>
-                        <core:ListItem text = "-" key = "minus" additionalText="minus"/>
-                        <core:ListItem text = "*" key = "multiple" additionalText="multiple"/>
-                        <core:ListItem text = "/" key = "divide" additionalText="divide"/>
-                    </m:items>
-                </m:Select>
+                    <m:Select id = "idSelect" width="300px" showSecondaryValues="true" items="{/items}" textAlign="Center">
+                        <core:ListItem 
+                            key="{key}"
+                            text="{text}"
+                            additionalText="{additionalText}"/>
+                    </m:Select>
                 </l:HorizontalLayout>
                 <l:HorizontalLayout >
-                    <m:Text text="Input 2" width="65px"/>
-                    <m:Input id = "idInput2" width="300px" type="Number"/>
+                    <m:Text text="Input 2" width="65px" textAlign="Center"/>
+                    <m:Input id = "idInput2" width="300px" type="Number" placeholder="값을 입력해주세요" textAlign="Center"/>
                 </l:HorizontalLayout>
                 <l:HorizontalLayout>
                     <m:Text text="" width="65px"/>
@@ -36,7 +34,7 @@
                 
             </l:VerticalLayout>
             <!-- sap.ui.table.Table -->
-            <Table
+            <!-- <Table
 				rows="{/ProductCollection}"
 				selectionMode="MultiToggle"
 				paste="onPaste"
@@ -49,10 +47,10 @@
 						</template>
 					</Column>
 				</columns>
-			</Table>
+			</Table> -->
 
             <!-- sap.m.Table -->
-            <m:Table id="idProductsTable">
+            <!-- <m:Table id="idProductsTable">
                 <m:headerToolbar>
                     <m:OverflowToolbar>
                         <m:content>
@@ -74,7 +72,7 @@
                         </m:cells>
                     </m:ColumnListItem>
                 </m:items>
-            </m:Table>
+            </m:Table> -->
             
         </m:content>
             

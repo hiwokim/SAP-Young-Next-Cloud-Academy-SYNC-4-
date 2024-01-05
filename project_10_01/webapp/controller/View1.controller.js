@@ -1,18 +1,16 @@
 sap.ui.define([
     "sap/ui/core/mvc/Controller", //api 가져오기
-    "sap/m/Button",
     "sap/ui/model/json/JSONModel"
 ],
     /**
      * @param {typeof sap.ui.core.mvc.Controller} Controller
      */
-    function (Controller, Button, JSONModel) {
+    function (Controller, JSONModel) {
         "use strict";
 
         return Controller.extend("project1001.controller.View1", {
             onInit: function () {
                 //new sap.m.Button
-                new Button
                 //초기화 함수
                 //초기값 설정, 화면에서 사용할 모델 생성
                 //아래 함수들이 사용할 공통 변수 등을 세팅
@@ -39,6 +37,16 @@ sap.ui.define([
                 };
                 var oModel = new JSONModel(oData);
                 this.getView().setModel(oModel); 
+ 
+                var oData2 = {
+                    history : [
+                        { num1 : 0, oper : "?", num2 : 0, result : 0 }
+                    ]
+                };
+
+                var oModel2 = new JSONModel(oData2);
+                this.getView().setModel(oModel2,"local");
+                
             },
 
             onBeforRendering : function () {/*화면 그려지기 전 실행*/},
@@ -49,6 +57,8 @@ sap.ui.define([
                 //View에 있는 Input 객체를 가져온다
                 var oInput1 = this.byId("idInput1").getValue();
                 var oInput2 = this.byId("idInput2").getValue();
+                var oModel = this.getView().getModel("local");
+                
                 if(oInput1 == ""){ 
                     oInput1 = null; 
                 }
@@ -67,17 +77,17 @@ sap.ui.define([
                 var sOperator = this.byId("idSelect").getSelectedItem().getText();
                 var result = 0;
 
-                switch(cal){
-                    case "plus":
+                switch(sOperator){
+                    case "+":
                         result = oInput1 + oInput2;
                         break;
-                    case "minus":
+                    case "-":
                         result = oInput1 - oInput2;
                         break;
-                    case "multiple":
+                    case "*":
                         result = oInput1 * oInput2;
                         break;
-                    case "divide":
+                    case "/":
                         result = oInput1 / oInput2;
                         break;
                 }
@@ -101,8 +111,9 @@ sap.ui.define([
                 }else{
                     sap.m.MessageToast.show("답 : " + result);
                 }
-                    
+                var data1 = { num1 : oInput1, oper : sOperator, num2 : oInput2, result : result };
                 
+                oModel.push(data1,true);
                 
                 //this : Controller
                 //.getView() : Controller 에 있는 메서드

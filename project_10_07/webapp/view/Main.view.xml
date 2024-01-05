@@ -7,7 +7,7 @@
         <VBox >
             <Text text="{test>/name/firstName} {test>/name/lastName}"/>   
             <Text text="{test>/datas/2/tel}"/>
-
+			<Button text="변경" press="Onclick"/>
         </VBox>
 
         <t:Table

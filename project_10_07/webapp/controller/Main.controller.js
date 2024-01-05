@@ -46,5 +46,22 @@ sap.ui.define([
                 //  car 라는 이름의 모델
                 // this.getView().setModel(oModel2, "car");
             },
+            Onclick : function(){
+                var oModel = this.getView().getModel('test');
+
+                // var data = oModel.getData();
+                // var data2 = oModel.getProperty("/name");
+                // var data = oModel.setData({name : "홍길동" });
+                
+                oModel.setProperty("/name/firstName", "Park");
+                console.log(oModel.getData());
+                
+                // var oModel = this.getView().getModel('test');
+                // oModel.getData().history; // 전체 데이터 가져오기
+                // oModel.getProperty('/history') // 특정 경로에 있는 데이터 가져오기 "/"는 전체 경로
+                
+                // oModel.setData("바꿀 데이터","합치기 여부(true, false)");
+                // oModel.setProperty("/경로", "바꿀값");
+            }
         });
     });

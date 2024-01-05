@@ -34,20 +34,38 @@
                 
             </l:VerticalLayout>
             <!-- sap.ui.table.Table -->
-            <!-- <Table
-				rows="{/ProductCollection}"
+            <Table
+				rows="{local>/history}"
 				selectionMode="MultiToggle"
 				paste="onPaste"
 				ariaLabelledBy="title">
 				<columns>
-					<Column width="11rem">
-						<m:Label text="Product Name" />
+					<Column>
+						<m:Label text="Number 1" />
 						<template>
-							<m:Text text="{Name}" wrapping="false" />
+							<m:Text text="{local>num1}" wrapping="false" />
+						</template>
+					</Column>
+                    <Column>
+						<m:Label text="Operator" />
+						<template>
+							<m:Text text="{local>oper}" wrapping="false" />
+						</template>
+					</Column>
+                    <Column>
+						<m:Label text="Number 2" />
+						<template>
+							<m:Text text="{local>num2}" wrapping="false" />
+						</template>
+					</Column>
+                    <Column>
+						<m:Label text="Result" />
+						<template>
+							<m:Text text="{local>result}" wrapping="false" />
 						</template>
 					</Column>
 				</columns>
-			</Table> -->
+			</Table>
 
             <!-- sap.m.Table -->
             <!-- <m:Table id="idProductsTable">

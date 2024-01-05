@@ -31,10 +31,10 @@ sap.ui.define([
 
                 var oData = { 
                     items : [
-                        { key : "plus", text : "+" ,additionalText : "Plus"},
-                        { key : "minus", text : "-" ,additionalText : "Minus"},
-                        { key : "multiple", text : "*" ,additionalText : "Multiple"},
-                        { key : "divide", text : "/" ,additionalText : "Divide"}
+                        { key : "plus", text : "+"},
+                        { key : "minus", text : "-"},
+                        { key : "multiple", text : "*"},
+                        { key : "divide", text : "/"}
                     ]
                 };
                 var oModel = new JSONModel(oData);

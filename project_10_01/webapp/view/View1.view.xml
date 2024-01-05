@@ -19,7 +19,7 @@
                         <core:ListItem 
                             key="{key}"
                             text="{text}"
-                            additionalText="{additionalText}"/>
+                            additionalText="{key}"/>
                     </m:Select>
                 </l:HorizontalLayout>
                 <l:HorizontalLayout >

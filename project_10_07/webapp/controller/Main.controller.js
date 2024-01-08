@@ -33,13 +33,17 @@ sap.ui.define([
                 
                    
                 var oModel = new JSONModel();
-                oModel.loadData("../model/test.json", {}, false); 
+                oModel.loadData("../model/test.json"); 
+
+                var oModel2 = new JSONModel();
+                oModel2.loadData("../model/data.json"); 
                    
                 // var oModel = new JSONModel();
                 // oModel.loadData("../model/data.json", {}, false); 
 
                 //  View에 JSON 모델(이름 없음=기본 모델=Default Model)을 세팅한다.
                 this.getView().setModel(oModel,"test"); 
+                this.getView().setModel(oModel2); 
 
                 //console.log(oModel.getData());
 
@@ -47,14 +51,14 @@ sap.ui.define([
                 // this.getView().setModel(oModel2, "car");
             },
             Onclick : function(){
-                var oModel = this.getView().getModel('test');
+                // var oModel = this.getView().getModel('test');
 
                 // var data = oModel.getData();
                 // var data2 = oModel.getProperty("/name");
                 // var data = oModel.setData({name : "홍길동" });
                 
-                oModel.setProperty("/name/firstName", "Park");
-                console.log(oModel.getData());
+                // oModel.setProperty("/name/firstName", "Park");
+                // console.log(oModel.getData());
                 
                 // var oModel = this.getView().getModel('test');
                 // oModel.getData().history; // 전체 데이터 가져오기
@@ -62,6 +66,22 @@ sap.ui.define([
                 
                 // oModel.setData("바꿀 데이터","합치기 여부(true, false)");
                 // oModel.setProperty("/경로", "바꿀값");
+            },
+            OnSetData : function(oEvent){
+                var oModel = this.getView().getModel(); //기본모델 호출
+                var oTestModel = this.getView().getModel("test");
+                var sInputData = oModel.getProperty("/inpValue");
+
+                //oTestModel.setProperty("/textValue", "Hello "+sInputData);
+                oTestModel.setData({ textValue : "Hello "+sInputData});
+                /*
+                    oTestModel에 있는 textValue 데이터 변경
+
+                    변경된 데이터 : "Hello + <Input 입력값>"
+
+                    setProperty 또는 setData 사용해서 적용할 수 있음!
+                */
+
             }
         });
     });

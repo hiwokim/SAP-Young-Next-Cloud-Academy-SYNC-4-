@@ -8,14 +8,16 @@
     xmlns:t="sap.m.Table">
     <m:Page id="page" title="{i18n>title}">
         <m:content>
-            <l:VerticalLayout>
+            <l:VerticalLayout id="test" width="300px">
+                <m:Title id="idTitle" text="{title/subTitle}"/>
+                <!-- binding="{/title}" -->
                 <l:HorizontalLayout >
                     <m:Text text="Input 1" width="65px" textAlign="Center"/>
                     <m:Input id = "idInput1" width="300px" type="Number" placeholder="값을 입력해주세요" textAlign="Center"/>
                 </l:HorizontalLayout>
                 <l:HorizontalLayout>
                     <m:Text text="수식 선택" width="65px"/>
-                    <m:Select id = "idSelect" width="300px" showSecondaryValues="true" items="{/items}" textAlign="Center">
+                    <m:Select id = "idSelect" width="300px" showSecondaryValues="true" items="{items}" textAlign="Center">
                         <core:ListItem 
                             key="{key}"
                             text="{text}"
@@ -40,28 +42,51 @@
 				paste="onPaste"
 				ariaLabelledBy="title">
 				<columns>
-					<Column>
-						<m:Label text="Number 1" />
+					<Column hAlign="End">
+						<m:Label width="100%" textAlign="Center" text="Number 1" />
 						<template>
 							<m:Text text="{local>num1}" wrapping="false" />
 						</template>
 					</Column>
-                    <Column>
+                    <Column hAlign="Center">
 						<m:Label text="Operator" />
 						<template>
 							<m:Text text="{local>oper}" wrapping="false" />
 						</template>
 					</Column>
-                    <Column>
-						<m:Label text="Number 2" />
+                    <Column hAlign="End">
+						<m:Label width="100%" textAlign="Center" text="Number 2" />
 						<template>
 							<m:Text text="{local>num2}" wrapping="false" />
 						</template>
 					</Column>
-                    <Column>
-						<m:Label text="Result" />
+                    <Column hAlign="End">
+						<m:Label width="100%" textAlign="Center" text="Result" />
 						<template>
 							<m:Text text="{local>result}" wrapping="false" />
+						</template>
+					</Column>
+                    <Column hAlign="Center">
+						<m:Label text="Status" />
+						<template>
+							<core:Icon
+                                src="sap-icon://circle-task-2"
+                                class="size1"
+                                color="{
+                                    path : 'local>result',
+                                    formatter : '.fnColorFormat'
+                                }" 
+                                visible="{= ${local>result} > 100}" >
+                                <!-- 
+                                    color="{= ${local>result} > 100 ? '#47C83E' : '#FFBB00'}"
+                                 -->
+                                <!-- ">" 부등호 그냥 입력해도 되는데, 
+                                    "<" 요건 코드값으로 입력해야 함. 코드값은 : &lt; 
+                                    "<" 대신 &lt; 를 입력-->
+                                <core:layoutData>
+                                    <m:FlexItemData growFactor="1" />
+                                </core:layoutData>
+                            </core:Icon>
 						</template>
 					</Column>
 				</columns>

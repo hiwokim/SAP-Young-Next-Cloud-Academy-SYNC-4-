@@ -7,6 +7,8 @@ sap.ui.define([
      */
     function (Controller, JSONModel) {
         "use strict";
+        // 클로저 변수(전역 변수)
+        // var TEST = "okok";
 
         return Controller.extend("project1001.controller.View1", {
             onInit: function () {
@@ -28,6 +30,9 @@ sap.ui.define([
                 //    getOwnerComponent() 를 사용
 
                 var oData = { 
+                    title : {
+                        subTitle : 'Calculator Program'
+                    },
                     items : [
                         { key : "plus", text : "+"},
                         { key : "minus", text : "-"},
@@ -35,18 +40,30 @@ sap.ui.define([
                         { key : "divide", text : "/"}
                     ]
                 };
-                var oModel = new JSONModel(oData);
-                this.getView().setModel(oModel); 
- 
-                var oData2 = {
-                    history : [
-                        { num1 : 0, oper : "?", num2 : 0, result : 0 }
-                    ]
-                };
+                this.getView().setModel(new JSONModel(oData)); 
+                // 이름없는 기본모델의 경우, 경로만 작성해주면 된다.
+                this.byId("idTitle").bindElement('/');
 
-                var oModel2 = new JSONModel(oData2);
-                this.getView().setModel(oModel2,"local");
+                // 이름이 있는 모델의 경우, 경로 및 이름을 객체 형태로 전달한다.
+                // this.byId("idTitle").bindElement({
+                //     path : '/title',
+                //     model : 'main1'
+                // });
+                this.byId("test").bindElement('/')
+                this.getView().setModel(new JSONModel( { history : [] } ),"local");
                 
+            },
+            // local 모델의 result 값에 따라서
+            // 포멧터 함수를 적용할 수 있다.
+            // result 값이 100 초과면 초록색, 아니면 빨각색을 반환한다.
+            fnColorFormat: function(sValue){
+                if(sValue){
+                    if(sValue > 100){
+                        return '#47C83E';
+                    } else{
+                        return '#FFBB00';
+                    }
+                }
             },
 
             onBeforRendering : function () {/*화면 그려지기 전 실행*/},
@@ -58,6 +75,7 @@ sap.ui.define([
                 var oInput1 = this.byId("idInput1").getValue();
                 var oInput2 = this.byId("idInput2").getValue();
                 var oModel = this.getView().getModel("local");
+                var Mdata = oModel.getData();
                 
                 if(oInput1 == ""){ 
                     oInput1 = null; 
@@ -111,9 +129,9 @@ sap.ui.define([
                 }else{
                     sap.m.MessageToast.show("답 : " + result);
                 }
-                var data1 = { num1 : oInput1, oper : sOperator, num2 : oInput2, result : result };
-                
-                oModel.push(data1,true);
+                Mdata.history.push({ num1 : oInput1, oper : sOperator, num2 : oInput2, result : result });
+                // this.getView().setModel(new JSONModel(Mdata),"local");
+                oModel.setData(Mdata);
                 
                 //this : Controller
                 //.getView() : Controller 에 있는 메서드

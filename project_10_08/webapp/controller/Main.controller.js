@@ -6,7 +6,7 @@ sap.ui.define([
      */
     function (Controller) {
         "use strict";
-
+        var i = 0;
         return Controller.extend("project1008.controller.Main", {
             onInit: function () {
                 var oData = {
@@ -22,19 +22,21 @@ sap.ui.define([
 
                 aList.push({
                     "name" : "hihi",
-                    age : 20
+                    age : i
                 });
+                i++;
 
                 oModel.setProperty("/list", aList);
                 // oModel.setData({ list : aList }, true);
 
             },
             onDelete: function () {
-                var oTreeTable = this.byId("TableBasic").getSelectedIndices();
+                var TableIndices = this.byId("idTable").getSelectedIndices();
                 var aList = this.getView().getModel().getProperty("/list");
-                
-                for(var i=0; i<oTreeTable.length; i++){
-                    aList.splice(index, oTreeTable[i]);
+
+
+                for(var i=TableIndices.length-1; i>=0; i--){
+                    aList.splice(TableIndices[i], 1);
                 }
 
                 this.getView().getModel().setProperty("/list", aList);

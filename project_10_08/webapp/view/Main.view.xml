@@ -6,7 +6,7 @@
     <m:Page id="page" title="{i18n>title}">
         <m:content>
         	<Table 
-				id="TableBasic"
+				id="idTable"
 				rows="{/list}"
 				selectionMode="MultiToggle"
 				rowActionCount="1"

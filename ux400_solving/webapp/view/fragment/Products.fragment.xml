@@ -1,0 +1,74 @@
+<c:FragmentDefinition xmlns:c="sap.ui.core" xmlns="sap.m">
+    <Dialog id = "idDialog" 
+            contentWidth="100%" 
+            title="Products"
+            contentHeight="100%"
+            draggable="true"
+            resizable="true">
+        	<content>
+            	<Table 	sticky="HeaderToolbar,ColumnHeaders"
+						inset="false"
+						items="{/Products}"
+                        mode="SingleSelectMaster"
+                        selectionChange="onSelectionChange"
+					   class="sapFDynamicPageAlignContent"
+					   width="auto">
+					<columns>
+						<Column>
+							<Text text="ProductID" />
+						</Column>
+                        <Column>
+							<Text text="ProductName" />
+						</Column>
+                        <Column>
+							<Text text="SupplierID" />
+						</Column>
+                        <Column>
+							<Text text="CategoryID" />
+						</Column>
+                        <Column>
+							<Text text="QuantityPerUnit" />
+						</Column>
+						<Column>
+							<Text text="UnitPrice" />
+						</Column>
+                        <Column>
+							<Text text="UnitsInStock" />
+						</Column>
+                        <Column>
+							<Text text="UnitsOnOrder" />
+						</Column>
+						<Column>
+							<Text text="ReorderLevel" />
+						</Column>
+                        <Column>
+							<Text text="Discontinued" />
+						</Column>
+					</columns>
+					<items>
+						<ColumnListItem>
+							<cells>
+								<Text text="{ProductID}" />
+								<Text text="{ProductName}" />
+								<Text text="{SupplierID}" />
+								<Text text="{CategoryID}" />
+								<Text text="{QuantityPerUnit}" />
+								<Text text="{UnitPrice}" />
+								<Text text="{UnitsInStock}" />
+								<Text text="{UnitsOnOrder}" />
+								<Text text="{ReorderLevel}" />
+								<Text text="{
+									path : 'Discontinued',
+									formatter : '.transformDiscontinued'
+								}" />
+							</cells>
+						</ColumnListItem>
+					</items>
+				</Table>
+        	</content>
+
+        <endButton>
+            <Button text="닫기" press="onClose" />
+        </endButton>
+    </Dialog>
+</c:FragmentDefinition>

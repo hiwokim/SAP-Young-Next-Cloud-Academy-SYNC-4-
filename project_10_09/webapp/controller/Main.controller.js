@@ -2,7 +2,7 @@ sap.ui.define([
     "sap/ui/core/mvc/Controller",
     'sap/ui/model/Filter', 
     'sap/ui/model/FilterOperator',
-    'sap/ui/model/json/JSONModel'
+    'sap/ui/model/json/JSONModel',
 ],
     /**
      * @param {typeof sap.ui.core.mvc.Controller} Controller
@@ -31,8 +31,10 @@ sap.ui.define([
                 }
             },
             onValueHelpRequest: function (){
-                sap.m.MessageToast.show('팝업 오픈!');
-
+                this.getView().byId("idDialog").open();
+            },
+            onClose: function(oEvent) {
+                oEvent.getSource().getParent().close();
             },
             onSearch: function(){
                 // var sOrderID = this.byId("idOrderID").getValue();
@@ -44,7 +46,7 @@ sap.ui.define([
 
                 if(oSearchData.OrderDate_start && oSearchData.OrderDate_end){
                     aFilter.push(new Filter({ 
-                        path : 'OrderDateID', // 대상 필드명
+                        path : 'OrderDate', // 대상 필드명
                         operator : 'BT', // 연산자(조건)
                         value1 : oSearchData.OrderDate_start, // 값 (BT의 경우 From)
                         value2 : oSearchData.OrderDate_end // (BT의 경우 To)
@@ -78,7 +80,7 @@ sap.ui.define([
                 // var aFilter = [];
                 // if(sOrderID) aFilter.push(new Filter('OrderID', 'EQ', sOrderID));
                 // if(sCustomerID) aFilter.push(new Filter('CustomerID', 'Contains', sCustomerID))
-                // if(sOrderDateID) aFilter.push(new Filter('OrderDateID', 'BT', sOrderDateID.getDateValue(), sOrderDateID.getSecondDateValue()))
+                // if(sOrderDateID) aFilter.push(new Filter('OrderDate', 'BT', sOrderDateID.getDateValue(), sOrderDateID.getSecondDateValue()))
                 // this.byId("idTable").getBinding("items").filter(new Filter({
                 //      filters : aFilter,
                 //      and : true
@@ -103,8 +105,16 @@ sap.ui.define([
                 var sPath = oEvent.getParameters().listItem.getBindingContextPath();
                 // 모델 경로를 통해서, 해당 경로의 전체 데이터를 얻음
                 var oSelectData = this.getView().getModel().getProperty(sPath);
-
-                alert(oSelectData.OrderID);
+                alert(oSelectData.ShipName);
+                // Dialog 호출
+                // local 이라는 JSONModel이 전역으로 사용할 수 있도록 생성되어 있음
+                // local 모델에 데이터를 담아놓으면
+                // Dialog 에서도 사용이 가능함!
+                // 주의) Fragment.load() 를 통해서, 팝업 호출 시 
+                //      해당 팝업에 모델 데이터를 띄우기 위해서는
+                //      호출된 Dialog에 .setModel(모델객체) 해줘야 함
+                this.getView().byId("idDialog");
+                
             }
         });
     });

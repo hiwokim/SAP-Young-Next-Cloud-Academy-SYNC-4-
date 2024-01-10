@@ -3,7 +3,8 @@
     xmlns="sap.m"
     xmlns:f="sap.f"
     xmlns:fb="sap.ui.comp.filterbar"
-    xmlns:layout="sap.ui.layout">
+    xmlns:layout="sap.ui.layout"
+	xmlns:c="sap.ui.core">
     <f:DynamicPage id="dynamicPageId" headerExpanded="{/headerExpanded}" toggleHeaderOnTitleClick="{/titleClickable}">
 		<!-- DynamicPage Title -->
 		<f:title>
@@ -78,11 +79,12 @@
 				</f:DynamicPageHeader>
 			</f:header>
 			<f:content>
+			<VBox>
 				<Table id="idTable"
 						sticky="HeaderToolbar,ColumnHeaders"
 						inset="false"
 						items="{/Orders}"
-                        mode="MultiSelect"
+                        mode="SingleSelectMaster"
                         selectionChange="onSelectionChange"
 					   class="sapFDynamicPageAlignContent"
 					   width="auto">
@@ -150,6 +152,8 @@
 					</ColumnListItem>
 				</items>
 			</Table>
+			<c:Fragment fragmentName="odata.project1009.view.CustomerID" />
+		</VBox>
 		</f:content>
 		<!-- DynamicPage Footer -->
 		<f:footer>

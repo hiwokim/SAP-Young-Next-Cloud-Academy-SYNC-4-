@@ -6,16 +6,13 @@
     <Page id="page" title="{i18n>title}">
         <VBox class="sapUiLargeMargin">
             <Text text="버튼을 클릭하면 아래 input에 값이 랜덤으로 채워집니다." />
-            <Input id="oInput" type="Number" change="onValueChange" />
+            <Input id="oInput" type="Number" change="onValueChange"/>
             <Button text="Random" press="onRandomPress"/>
         </VBox>
 
         <VBox class="sapUiLargeMargin" width="50%">
             <t:Table
-                rows="{list>/history}"
-                selectionMode="MultiToggle"
-                paste="onPaste"
-                ariaLabelledBy="title">
+                rows="{list>/history}">
                 <t:extension>
                     <OverflowToolbar style="Clear">
                         <Title id="title" text="랜덤 목록 리스트"/>

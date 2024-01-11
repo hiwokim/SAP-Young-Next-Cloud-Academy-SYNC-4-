@@ -34,7 +34,6 @@ sap.ui.define([
                 }else{
                     return 'No';
                 }
-            
             },
             onValueChange: function(){
                 var input = this.byId("oInput");

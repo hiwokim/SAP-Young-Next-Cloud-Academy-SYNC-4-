@@ -4,7 +4,9 @@
     xmlns:cm="sap.suite.ui.commons"
     xmlns:viz="sap.viz.ui5.controls"
     xmlns:viz.data="sap.viz.ui5.data"
-    xmlns:viz.feeds="sap.viz.ui5.controls.common.feeds">
+    xmlns:viz.feeds="sap.viz.ui5.controls.common.feeds"
+    xmlns:micro="sap.suite.ui.microchart"
+    xmlns:t="sap.ui.table">
     <Page id="page" title="{i18n>title}">
         <cm:ChartContainer 
             id="chartContainer" 
@@ -62,63 +64,92 @@
                     title="Table">
                     <cm:content>
                         <!-- sap.ui.table.Table -->
-                        <Table 	
-                            sticky="HeaderToolbar,ColumnHeaders"
-                            inset="false"
-                            items="{/Products}"
-                            mode="SingleSelectMaster"
-                            selectionChange="onSelectionChange"
+                        <t:Table 	
+                            id="idTable"
+                            rows="{/Products}"
+                            selectionMode="MultiToggle"
+                            rowActionCount="1"
+                            paste="onPaste"
+                            ariaLabelledBy="title"
                             class="sapFDynamicPageAlignContent"
                             width="auto">
-                            <columns>
-                                <Column>
-                                    <Text text="ProductID" />
-                                </Column>
-                                <Column>
-                                    <Text text="ProductName" />
-                                </Column>
-                                <Column>
-                                    <Text text="SupplierID" />
-                                </Column>
-                                <Column>
-                                    <Text text="CategoryID" />
-                                </Column>
-                                <Column>
-                                    <Text text="QuantityPerUnit" />
-                                </Column>
-                                <Column>
-                                    <Text text="UnitPrice" />
-                                </Column>
-                                <Column>
-                                    <Text text="UnitsInStock" />
-                                </Column>
-                                <Column>
-                                    <Text text="UnitsOnOrder" />
-                                </Column>
-                                <Column>
-                                    <Text text="ReorderLevel" />
-                                </Column>
-                                <Column>
-                                    <Text text="Discontinued" />
-                                </Column>
-                            </columns>
-                            <items>
-                                <ColumnListItem>
-                                    <cells>
+                            <t:rowActionTemplate>
+                            </t:rowActionTemplate>
+                            <t:extension>
+                                <OverflowToolbar>
+                                    <content>
+                                        <Title text="Products" level="H2"/>
+                                        <ToolbarSpacer />
+                                    </content>
+                                </OverflowToolbar>
+                            </t:extension>	
+                            <t:columns>
+                                <t:Column>
+						            <Label textAlign="Center" text="ProductID" />
+                                    <t:template>
                                         <Text text="{ProductID}" />
+                                    </t:template>
+					            </t:Column>
+                                <t:Column>
+						            <Label textAlign="Center" text="ProductName" />
+                                    <t:template>
                                         <Text text="{ProductName}" />
+                                    </t:template>
+					            </t:Column>
+                                <t:Column>
+						            <Label textAlign="Center" text="SupplierID" />
+                                    <t:template>
                                         <Text text="{SupplierID}" />
+                                    </t:template>
+					            </t:Column>
+                                <t:Column>
+						            <Label textAlign="Center" text="CategoryID" />
+                                    <t:template>
                                         <Text text="{CategoryID}" />
+                                    </t:template>
+					            </t:Column>
+                                <t:Column>
+						            <Label textAlign="Center" text="QuantityPerUnit" />
+                                    <t:template>
                                         <Text text="{QuantityPerUnit}" />
+                                    </t:template>
+					            </t:Column>
+                                <t:Column>
+						            <Label textAlign="Center" text="UnitPrice" />
+                                    <t:template>
                                         <Text text="{UnitPrice}" />
-                                        <Text text="{UnitsInStock}" />
+                                    </t:template>
+					            </t:Column>
+                                <t:Column>
+                                    <Label textAlign="Center" text="UnitsInStock" />
+                                    <t:template>
+                                    <!-- <Text text="UnitsInStock" /> -->
+                                        <micro:RadialMicroChart 
+                                            size="S"
+                                            percentage="{= ${UnitsInStock}/100}"
+                                            valueColor="{= ${UnitsInStock}/100 > 0.3 ? 'Good' : 'Error'}"/>
+                                    </t:template>
+                                </t:Column>
+                                <t:Column>
+						            <Label textAlign="Center" text="UnitsOnOrder" />
+                                    <t:template>
                                         <Text text="{UnitsOnOrder}" />
+                                    </t:template>
+					            </t:Column>
+                                <t:Column>
+						            <Label textAlign="Center" text="ReorderLevel" />
+                                    <t:template>
                                         <Text text="{ReorderLevel}" />
+                                    </t:template>
+					            </t:Column>
+                                <t:Column>
+						            <Label textAlign="Center" text="Discontinued" />
+                                    <t:template>
                                         <Text text="{Discontinued}" />
-                                    </cells>
-                                </ColumnListItem>
-                            </items>
-                        </Table>
+                                    </t:template>
+					            </t:Column>
+                            </t:columns>
+                        </t:Table>
                     </cm:content>
                 </cm:ChartContainerContent>
             </cm:content>

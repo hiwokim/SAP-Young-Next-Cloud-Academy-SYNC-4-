@@ -1,0 +1,130 @@
+<mvc:View controllerName="project1011.controller.Main"
+    xmlns:mvc="sap.ui.core.mvc" displayBlock="true"
+    xmlns="sap.m"
+    xmlns:cm="sap.suite.ui.commons"
+    xmlns:viz="sap.viz.ui5.controls"
+    xmlns:viz.data="sap.viz.ui5.data"
+    xmlns:viz.feeds="sap.viz.ui5.controls.common.feeds">
+    <Page id="page" title="{i18n>title}">
+        <cm:ChartContainer 
+            id="chartContainer" 
+            showFullScreen="true" 
+            title="Unit Chart">
+            <cm:content>
+                <!-- 차트 들어가는 부분 -->
+                <cm:ChartContainerContent 
+                    icon="sap-icon://horizontal-bar-chart-2"
+                    title="Chart">
+                    <cm:content>
+                        <viz:VizFrame id="idLineChart"
+                            vizType="stacked_column"
+                            uiConfig="{ 'applicationSet' : 'fiori'}"
+                            vizProperties="{
+                                'title' : { 'visible' : true, 'text' : 'My Chart' },
+                                'legendGroup' : { 
+                                    'layout' : { 'position' : 'top' }
+                                },
+                                'plotArea' : {
+                                    'dataLabel' : { 'visible' : true, 'type' : 'value' },
+                                    'colorPalette' : [ '#86E57F', '#FAED7D' ]
+                                }
+                            }"
+                            >
+                            <viz:dataset>
+                                <viz.data:FlattenedDataset data="{/Products}">
+                                    <!-- x축 -->
+                                    <viz.data:dimensions> 
+                                        <viz.data:DimensionDefinition name="year" value="{ProductName}"/>
+                                    </viz.data:dimensions>
+
+                                    <!-- y축 -->
+                                    <viz.data:measures>
+                                        <viz.data:MeasureDefinition name="Stock" value="{UnitsInStock}"/>
+                                        <viz.data:MeasureDefinition name="Order" value="{UnitsOnOrder}"/>
+                                    </viz.data:measures>
+                                </viz.data:FlattenedDataset>
+                            </viz:dataset>
+
+                            <viz:feeds>
+                                <!-- uid에 들어갈 수 있는 값
+                                    categoryAxis    ,   valueAxis : line, column, stacked_bar
+                                    color           ,   size      : pie, donut
+                                -->
+                                <viz.feeds:FeedItem uid="categoryAxis" type="Dimension" values="year"/>
+                                <viz.feeds:FeedItem uid="valueAxis" type="Measure" values="Stock,Order"/>
+                            </viz:feeds>
+                        </viz:VizFrame>
+                    </cm:content>
+                </cm:ChartContainerContent>
+                <!-- 테이블 들어가는 부분 -->
+                <cm:ChartContainerContent 
+                    icon="sap-icon://table-view"
+                    title="Table">
+                    <cm:content>
+                        <!-- sap.ui.table.Table -->
+                        <Table 	
+                            sticky="HeaderToolbar,ColumnHeaders"
+                            inset="false"
+                            items="{/Products}"
+                            mode="SingleSelectMaster"
+                            selectionChange="onSelectionChange"
+                            class="sapFDynamicPageAlignContent"
+                            width="auto">
+                            <columns>
+                                <Column>
+                                    <Text text="ProductID" />
+                                </Column>
+                                <Column>
+                                    <Text text="ProductName" />
+                                </Column>
+                                <Column>
+                                    <Text text="SupplierID" />
+                                </Column>
+                                <Column>
+                                    <Text text="CategoryID" />
+                                </Column>
+                                <Column>
+                                    <Text text="QuantityPerUnit" />
+                                </Column>
+                                <Column>
+                                    <Text text="UnitPrice" />
+                                </Column>
+                                <Column>
+                                    <Text text="UnitsInStock" />
+                                </Column>
+                                <Column>
+                                    <Text text="UnitsOnOrder" />
+                                </Column>
+                                <Column>
+                                    <Text text="ReorderLevel" />
+                                </Column>
+                                <Column>
+                                    <Text text="Discontinued" />
+                                </Column>
+                            </columns>
+                            <items>
+                                <ColumnListItem>
+                                    <cells>
+                                        <Text text="{ProductID}" />
+                                        <Text text="{ProductName}" />
+                                        <Text text="{SupplierID}" />
+                                        <Text text="{CategoryID}" />
+                                        <Text text="{QuantityPerUnit}" />
+                                        <Text text="{UnitPrice}" />
+                                        <Text text="{UnitsInStock}" />
+                                        <Text text="{UnitsOnOrder}" />
+                                        <Text text="{ReorderLevel}" />
+                                        <Text text="{Discontinued}" />
+                                    </cells>
+                                </ColumnListItem>
+                            </items>
+                        </Table>
+                    </cm:content>
+                </cm:ChartContainerContent>
+            </cm:content>
+        </cm:ChartContainer>
+        <content >
+
+        </content>
+    </Page>
+</mvc:View>

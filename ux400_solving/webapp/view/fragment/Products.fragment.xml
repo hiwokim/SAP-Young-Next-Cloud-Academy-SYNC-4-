@@ -2,7 +2,7 @@
     <Dialog id = "idDialog" 
             contentWidth="100%" 
             title="Products"
-            contentHeight="100%"
+            contentHeight="40%"
             draggable="true"
             resizable="true">
         	<content>
@@ -44,6 +44,9 @@
                         <Column>
 							<Text text="Discontinued" />
 						</Column>
+						<Column>
+							<Text text="Status" />
+						</Column>
 					</columns>
 					<items>
 						<ColumnListItem>
@@ -61,6 +64,12 @@
 									path : 'Discontinued',
 									formatter : '.transformDiscontinued'
 								}" />
+								<c:Icon
+									src="{=${UnitPrice} > 15 ? 'sap-icon://thumb-up' : 'sap-icon://thumb-down' }"
+									class="size1"
+									color="{=${UnitPrice} > 15 ? 'rgb(27, 234, 33)' : 'rgb(234, 52, 27)' }"
+									>
+                            	</c:Icon>
 							</cells>
 						</ColumnListItem>
 					</items>

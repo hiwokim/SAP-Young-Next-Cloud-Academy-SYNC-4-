@@ -28,14 +28,27 @@ sap.ui.define([
             onClose: function(oEvent) {
                 oEvent.getSource().getParent().close();
             },
-            transformDiscontinued: function(sValue){
-                debugger;
+            transformDiscontinued: function(sValue){  
                 if(sValue){
-                    if(sValue == true){
-                        return 'Yes';
-                    }else{
-                        return 'No';
-                    }
+                    return 'Yes';
+                }else{
+                    return 'No';
+                }
+            
+            },
+            onValueChange: function(){
+                var input = this.byId("oInput");
+                var num = this.byId("oInput").getValue();
+                var oModel = this.getView().getModel("list");
+                var Mdata = oModel.getData();
+                
+                if(num < 1 || num > 100){
+                    input.setValueState("Error");
+                    input.setValueStateText("1이상 100이하의 숫자를 입력해주세요.");
+                }else{
+                    input.setValueState();
+                    Mdata.history.push({ rosw : num });
+                    oModel.setData(Mdata);
                 }
             }
         });

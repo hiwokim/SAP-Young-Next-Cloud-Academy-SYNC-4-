@@ -6,7 +6,7 @@
     <Page id="page" title="{i18n>title}">
         <VBox class="sapUiLargeMargin">
             <Text text="버튼을 클릭하면 아래 input에 값이 랜덤으로 채워집니다." />
-            <Input id="oInput"/>
+            <Input id="oInput" type="Number" change="onValueChange" />
             <Button text="Random" press="onRandomPress"/>
         </VBox>
 

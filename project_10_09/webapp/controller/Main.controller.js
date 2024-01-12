@@ -105,7 +105,7 @@ sap.ui.define([
                 var sPath = oEvent.getParameters().listItem.getBindingContextPath();
                 // 모델 경로를 통해서, 해당 경로의 전체 데이터를 얻음
                 var oSelectData = this.getView().getModel().getProperty(sPath);
-                alert(oSelectData.ShipName);
+                //alert(oSelectData.OrderID);
                 // Dialog 호출
                 // local 이라는 JSONModel이 전역으로 사용할 수 있도록 생성되어 있음
                 // local 모델에 데이터를 담아놓으면
@@ -113,7 +113,13 @@ sap.ui.define([
                 // 주의) Fragment.load() 를 통해서, 팝업 호출 시 
                 //      해당 팝업에 모델 데이터를 띄우기 위해서는
                 //      호출된 Dialog에 .setModel(모델객체) 해줘야 함
-                this.getView().byId("idDialog");
+                // this.getView().byId("idDialog");
+                var oRouter = this.getOwnerComponent().getRouter();
+                oRouter.navTo('RouteDetail', {
+                    OrderID : oSelectData.OrderID
+                });
+                // .navTo('라우트객체이름', {파라미터정보}, 라우터 히스토리 초기화)
+                // Detail.view.xml 로 이동
                 
             }
         });

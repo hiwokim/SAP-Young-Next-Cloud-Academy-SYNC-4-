@@ -73,6 +73,9 @@
                 "async": true,
                 "viewPath": "project1012.view",
                 "controlAggregation": "pages",
+                "bypassed": {
+                    "target" : "NotFound"
+                },
                 "controlId": "app",
                 "clearControlAggregation": false
             },
@@ -86,9 +89,16 @@
                 },
                 {
                     "name": "RouteDetail",
-                    "pattern": "detail",
+                    "pattern": "detail/{key1}/:key2:",
                     "target": [
                         "TargetDetail"
+                    ]
+                },
+                {
+                    "name": "RouteEmployee",
+                    "pattern": "Employee",
+                    "target": [
+                        "TargetEmployee"
                     ]
                 }
             ],
@@ -101,9 +111,22 @@
                     "viewName": "Main"
                 },
                 "TargetDetail": {
+                    "transition": "slide",
                     "viewType": "XML",
                     "viewId": "Detail",
                     "viewName": "Detail"
+                },
+                "NotFound": {
+                    "transition": "show",
+                    "viewType": "XML",
+                    "viewId": "NotFound",
+                    "viewName": "NotFound"
+                },
+                "TargetEmployee": {
+                    "transition": "show",
+                    "viewType": "XML",
+                    "viewId": "Employee",
+                    "viewName": "Employee"
                 }
             }
         },

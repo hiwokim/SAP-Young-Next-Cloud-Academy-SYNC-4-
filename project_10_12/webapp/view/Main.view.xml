@@ -4,6 +4,8 @@
     <Page id="page" title="{i18n>title}">
         <content >
             <Button text="Detail" press="onGoDetail"/>
+            <Button text="Display NotFound" press="onGoNotFound"/>
+            <Button text="Employee" press="onGoEmployee"/>
         </content>
     </Page>
 </mvc:View>

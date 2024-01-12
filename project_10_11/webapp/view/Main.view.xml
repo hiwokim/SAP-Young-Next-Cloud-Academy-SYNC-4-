@@ -125,7 +125,8 @@
                                     <t:template>
                                     <!-- <Text text="UnitsInStock" /> -->
                                         <micro:RadialMicroChart 
-                                            size="S"
+                                            size="S" width="100%"
+                                            alignContent="Center"
                                             percentage="{= ${UnitsInStock}/100}"
                                             valueColor="{= ${UnitsInStock}/100 > 0.3 ? 'Good' : 'Error'}"/>
                                     </t:template>

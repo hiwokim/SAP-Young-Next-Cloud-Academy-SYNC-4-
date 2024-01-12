@@ -38,16 +38,17 @@ sap.ui.define([
             onValueChange: function(){
                 var input = this.byId("oInput");
                 var num = this.byId("oInput").getValue();
+                
                 var oModel = this.getView().getModel("list");
                 var Mdata = oModel.getData();
                 
-                if(num < 1 || num > 100){
-                    input.setValueState("Error");
-                    input.setValueStateText("1이상 100이하의 숫자를 입력해주세요.");
-                }else{
+                if(num > 0 && num <= 100){
                     input.setValueState();
                     Mdata.history.push({ rosw : num });
                     oModel.setData(Mdata);
+                }else{
+                    input.setValueState("Error");
+                    input.setValueStateText("1이상 100이하의 숫자를 입력해주세요.");
                 }
             }
         });

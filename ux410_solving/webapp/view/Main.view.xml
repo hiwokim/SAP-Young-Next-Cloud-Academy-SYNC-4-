@@ -1,0 +1,95 @@
+<mvc:View controllerName="sap.btp.ux410solving.controller.Main"
+    xmlns:mvc="sap.ui.core.mvc" displayBlock="true"
+    xmlns="sap.m"
+    xmlns:f="sap.f"
+    xmlns:core="sap.ui.core"
+    xmlns:fb="sap.ui.comp.filterbar"
+    xmlns:viz="sap.viz.ui5.controls"
+    xmlns:viz.data="sap.viz.ui5.data"
+    xmlns:viz.feeds="sap.viz.ui5.controls.common.feeds">
+    <f:DynamicPage id="dynamicPageId" headerExpanded="{/headerExpanded}" toggleHeaderOnTitleClick="{/titleClickable}">
+		<f:title>
+			<f:DynamicPageTitle>
+				<f:heading>
+					<Title text="Viz Frame"/>
+				</f:heading>
+                <f:actions>
+                   
+                </f:actions>
+			</f:DynamicPageTitle>
+		</f:title>
+        <f:header>
+				<f:DynamicPageHeader pinnable="true">
+                    <fb:FilterBar id="filterbar" persistencyKey="myPersKey" useToolbar="false" search=".onSearch">
+						<fb:filterGroupItems>
+							<fb:FilterGroupItem name="OrderID" label="Order ID" groupName="Group1" visibleInFilterBar="true">
+								<fb:control>
+                                    <ComboBox
+                                        id = "idComboBox1"
+                                        showSecondaryValues= "true"
+                                        items="{
+                                            path: '/Orders',
+                                            sorter: { path: 'OrderID' }
+                                        }">
+                                        <core:ListItem key="{OrderID}" text="{OrderID}" additionalText="{CustomerID}"/>
+                                    </ComboBox>
+								</fb:control>
+							</fb:FilterGroupItem>
+                            <fb:FilterGroupItem name="Type" label="Type" groupName="Group1" visibleInFilterBar="true">
+								<fb:control>
+                                    <ComboBox
+                                        id = "idComboBox2"
+                                        showSecondaryValues= "true"
+                                        items="{
+                                            path: 'typeList>/chart'
+                                        }">
+                                        <core:ListItem key="{typeList>type}" text="{typeList>type}"/>
+                                    </ComboBox>
+								</fb:control>
+							</fb:FilterGroupItem>
+						</fb:filterGroupItems>
+					</fb:FilterBar>
+				</f:DynamicPageHeader>
+			</f:header>
+            <f:content>
+                <viz:VizFrame 
+                    id="idChart"
+                    vizType="bar"
+                    uiConfig="{ 'applicationSet' : 'fiori'}"
+                    width="auto"
+                    vizProperties="{
+                        'title' : { 'visible' : false, 'text' : 'My Chart' },
+                        'legendGroup' : { 
+                            'layout' : { 'position' : 'right' }
+                        },
+                        'plotArea' : {
+                            'dataLabel' : { 'visible' : true, 'type' : 'value' },
+                            'colorPalette' : [ '#0054FF' ]
+                        }
+                    }"
+                    selectData="OselectData"
+                    >
+                    <viz:dataset>
+                        <viz.data:FlattenedDataset data="{/Order_Details}">
+                            <!-- x축 -->
+                            <viz.data:dimensions> 
+                                <viz.data:DimensionDefinition name="OrderID" value="{OrderID}"/>
+                                <viz.data:DimensionDefinition name="ProductID" value="{ProductID}"/>
+                            </viz.data:dimensions>
+
+                            <!-- y축 -->
+                            <viz.data:measures>
+                                <viz.data:MeasureDefinition name="UnitPrice" value="{UnitPrice}"/>
+                            </viz.data:measures>
+                        </viz.data:FlattenedDataset>
+                    </viz:dataset>
+
+                    <viz:feeds>
+                        <viz.feeds:FeedItem uid="categoryAxis" type="Dimension" values="OrderID,ProductID"/>
+                        <viz.feeds:FeedItem uid="valueAxis" type="Measure" values="UnitPrice"/>
+                    </viz:feeds>
+                </viz:VizFrame>
+            </f:content>
+            
+	</f:DynamicPage>
+</mvc:View>

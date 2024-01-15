@@ -40,12 +40,12 @@ sap.ui.define([
                 var num = this.byId("oInput").getValue();
                 
                 var oModel = this.getView().getModel("list");
-                var Mdata = oModel.getData();
+                var Mdata = oModel.setProperty("/history");
                 
                 if(num > 0 && num <= 100){
                     input.setValueState();
-                    Mdata.history.push({ rosw : num });
-                    oModel.setData(Mdata);
+                    Mdata.push({ rosw : num });
+                    oModel.setData.history(Mdata);
                 }else{
                     input.setValueState("Error");
                     input.setValueStateText("1이상 100이하의 숫자를 입력해주세요.");

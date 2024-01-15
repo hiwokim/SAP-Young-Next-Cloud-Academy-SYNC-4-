@@ -21,6 +21,7 @@
                         'colorPalette' : [ '#A566FF', '#B7F0B1', '#6799FF' ]
                      }
                 }"
+                selectData="OselectData"
                 >
                 <viz:dataset>
                     <viz.data:FlattenedDataset data="{view>/list}">

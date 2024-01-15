@@ -1,0 +1,45 @@
+<mvc:View controllerName="sap.btp.ux410solving.controller.Detail"
+    xmlns:mvc="sap.ui.core.mvc" displayBlock="true"
+    xmlns="sap.m"
+    xmlns:l="sap.ui.layout"
+	xmlns:f="sap.ui.layout.form"
+	xmlns:core="sap.ui.core"
+    xmlns:ux="sap.uxap">
+    <Page id="page" title="{i18n>title}" showNavButton="true" navButtonPress="onNavBack">
+        <ux:ObjectPageLayout id="ObjectPageLayout" upperCaseAnchorBar="false">
+		<ux:headerTitle>
+			<ux:ObjectPageHeader
+                    id="uxID"
+					objectTitle=""
+					objectSubtitle="Order Detail View Detail"/>
+
+		</ux:headerTitle>
+		<ux:sections>
+            <ux:ObjectPageSection titleUppercase="false" title="Sample Forms">
+				<ux:subSections>
+					<ux:ObjectPageSubSection title="Info" titleUppercase="false">
+						<ux:blocks>
+                            <f:SimpleForm id="SimpleFormId">
+                                <f:content>
+                                    <Label text="OrderID" />
+                                    <Text text="{OrderID}"/>
+                                    <Label text="ProductID" />
+                                    <Text text="{ProductID}"/>
+                                    <Label text="UnitPrice" />
+                                    <Text text="{UnitPrice}"/>
+                                    <Label text="Quantity" />
+                                    <Text text="{Quantity}"/>
+                                    <Label text="Discount" />
+                                    <Text text="{Discount}"/>
+                                </f:content>
+                            </f:SimpleForm>
+                        </ux:blocks>
+					</ux:ObjectPageSubSection>
+				</ux:subSections>
+			</ux:ObjectPageSection>
+        </ux:sections>
+        
+        </ux:ObjectPageLayout>
+        
+    </Page>
+</mvc:View>

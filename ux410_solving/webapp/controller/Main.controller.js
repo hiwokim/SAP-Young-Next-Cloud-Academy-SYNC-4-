@@ -25,9 +25,13 @@ sap.ui.define([
             onSearch: function(){
                 var ItemData = this.byId("idComboBox1").getSelectedItem();
                 var ItemData2 = this.byId("idComboBox2").getSelectedItem();
+                var ComboBoxState1 = this.byId("idComboBox1");
+                var ComboBoxState2 = this.byId("idComboBox2");
+                
                 var aFilter = [];
                 var oChart = this.byId("idChart");
                 if(ItemData){
+                    ComboBoxState1.setValueState();
                     ItemData = ItemData.getText();
                     aFilter.push(new Filter({ 
                         path : 'OrderID',
@@ -35,14 +39,21 @@ sap.ui.define([
                         value1 : ItemData, 
                     }));
                 }
+                else{
+                    ComboBoxState1.setValueState("Error");
+                }
                 if(ItemData2){
+                    ComboBoxState2.setValueState();
                     ItemData2 = ItemData2.getText();
                     oChart.setVizType(ItemData2);
+                }else{
+                    ComboBoxState2.setValueState("Error");
                 }
                 oChart.getDataset().getBinding("data").filter(aFilter);
                 
             },
             OselectData: function(oEvent){
+                debugger;
                 var OrderIDdata = oEvent.getParameters().data[0].data.OrderID;
                 var ProductIDdata = oEvent.getParameters().data[0].data.ProductID;
                 var oRouter = this.getOwnerComponent().getRouter();

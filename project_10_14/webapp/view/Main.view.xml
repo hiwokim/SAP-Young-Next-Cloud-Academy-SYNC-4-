@@ -1,0 +1,95 @@
+<mvc:View controllerName="project1014.controller.Main"
+    xmlns:mvc="sap.ui.core.mvc" displayBlock="true"
+    xmlns:c="sap.ui.core"
+    xmlns:t="sap.ui.table"
+    xmlns:l="sap.ui.layout"
+    xmlns="sap.m">
+    <Page id="page" title="{i18n>title}">
+        <content>
+
+        <l:Grid
+            binding="{/data}"
+            class="sapUiSmallMarginTop"
+            hSpacing="2"
+            defaultSpan="XL6 L6 M6 S10">
+            <l:content>
+                <Input description="Member ID" 
+                    value="{data>/Memid}">
+                    <layoutData>
+                        <l:GridData span="XL4 L4 M6 S12"/>
+                    </layoutData>
+                </Input>
+                <Input description="Member Name"
+                    value="{data>/Memnm}">
+                    <layoutData>
+                        <l:GridData span="XL4 L4 M6 S12"/>
+                    </layoutData>
+                </Input>
+                <Input description="Tel No."
+                    value="{data>/Telno}">
+                    <layoutData>
+                        <l:GridData span="XL4 L4 M6 S12"/>
+                    </layoutData>
+                </Input>
+                <Input description="Email"
+                    value="{data>/Email}">
+                    <layoutData>
+                        <l:GridData span="XL4 L4 M6 S12"/>
+                    </layoutData>
+                </Input>
+            </l:content>
+        </l:Grid>
+
+
+
+
+        <t:Table
+            id="idTable"
+            rows="{/Member}"
+            rowSelectionChange="onRowSelectionChange"
+            selectionMode="Single"
+            selectionBehavior="RowOnly"
+            paste="onPaste"
+            ariaLabelledBy="title">
+            <t:extension>
+                <OverflowToolbar style="Clear">
+                    <Title id="title" text="Products"/>
+                    <ToolbarSpacer />
+                    <Button text="Read Entity" type="Emphasized" press="onEntity"/>
+                    <Button text="EntitySet" type="Emphasized" press="onEntitySet"/>
+                    <Button text="Create" type="Emphasized" press="onCreate"/>
+                    <Button text="Update" type="Emphasized" press="onUpdate"/>
+                    <Button text="Delete" type="Emphasized" press="onDelete"/>
+                    <Button icon="sap-icon://reset" press="onReset"/>
+                </OverflowToolbar>
+            </t:extension>
+            <t:columns>
+                <t:Column width="auto">
+                    <Label text="Member ID" />
+                    <t:template>
+                        <Text text="{Memid}" wrapping="false" />
+                    </t:template>
+                </t:Column>					
+                <t:Column width="auto">
+                    <Label text="Member Name" />
+                    <t:template>
+                        <Text text="{Memnm}" wrapping="false" />
+                    </t:template>						
+                </t:Column>					
+                <t:Column width="auto">
+                    <Label text="Tel No." />
+                    <t:template>
+                        <Text text="{Telno}" wrapping="false" />
+                    </t:template>												
+                </t:Column>					
+                <t:Column width="auto">
+                    <Label text="Email" />
+                    <t:template>
+                        <Text text="{Email}" wrapping="false" />
+                    </t:template>																		
+                </t:Column>							
+            </t:columns>
+        </t:Table>
+        </content>
+    </Page>
+</mvc:View>

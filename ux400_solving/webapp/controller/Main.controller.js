@@ -37,7 +37,7 @@ sap.ui.define([
             },
             onValueChange: function(){
                 var input = this.byId("oInput");
-                var num = this.byId("oInput").getValue();
+                var num = input.getValue();
                 
                 var oModel = this.getView().getModel("list");
                 var Mdata = oModel.getData();

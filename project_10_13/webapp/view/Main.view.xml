@@ -70,31 +70,31 @@
                 </OverflowToolbar>
             </t:extension>
             <t:columns>
-                <t:Column width="11rem">
+                <t:Column width="11rem" filterProperty="Productno" sortProperty="Productno">
                     <Label text="Productno" />
                     <t:template>
                         <Text text="{Productno}" wrapping="false" />
                     </t:template>
                 </t:Column>					
-                <t:Column width="11rem">
+                <t:Column width="11rem" filterProperty="Productno" sortProperty="Productno">
                     <Label text="Productname" />
                     <t:template>
                         <Text text="{Productname}" wrapping="false" />
                     </t:template>						
                 </t:Column>					
-                <t:Column width="11rem">
+                <t:Column width="11rem" filterProperty="Productno" sortProperty="Productno">
                     <Label text="Fname" />
                     <t:template>
                         <Text text="{Fname}" wrapping="false" />
                     </t:template>												
                 </t:Column>					
-                <t:Column width="11rem">
+                <t:Column width="11rem" filterProperty="Productno" sortProperty="Productno">
                     <Label text="Lname" />
                     <t:template>
                         <Text text="{Lname}" wrapping="false" />
                     </t:template>																		
                 </t:Column>					
-                <t:Column width="11rem">
+                <t:Column width="11rem" filterProperty="Productno" sortProperty="Productno">
                     <Label text="Memo" />
                     <t:template>
                         <Text text="{Memo}" wrapping="false" />
@@ -102,6 +102,7 @@
                 </t:Column>					
             </t:columns>
         </t:Table>
+        <c:Fragment fragmentName="opdata.project1013.view.fragment.Products" />
         </content>
     </Page>
 </mvc:View>

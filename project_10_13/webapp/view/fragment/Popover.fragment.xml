@@ -1,0 +1,25 @@
+<core:FragmentDefinition
+	xmlns="sap.m"
+	xmlns:core="sap.ui.core">
+	<Popover
+		id="myPopover"
+		title="Filter"
+		class="sapUiResponsivePadding--header sapUiResponsivePadding--footer"
+		placement="Bottom"
+		initialFocus="email">
+		<footer>
+			<OverflowToolbar>
+				<ToolbarSpacer/>
+				<Button	text="Read" press="onRead" />
+			</OverflowToolbar>
+		</footer>
+        <VBox class="sapUiSmallMargin">
+            <Label text="Product Number:"/>
+            <Input value="{popover>/Productno}"/>
+        </VBox>
+        <VBox class="sapUiSmallMargin">
+            <Label text="Product Name:"/>
+            <Input value="{popover>/Productname}"/>
+        </VBox>
+	</Popover>
+</core:FragmentDefinition>

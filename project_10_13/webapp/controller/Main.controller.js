@@ -1,11 +1,13 @@
 sap.ui.define([
     "sap/ui/core/mvc/Controller",
-    "sap/ui/model/json/JSONModel"
+    "sap/ui/model/json/JSONModel",
+    "sap/ui/model/Filter",
+    "sap/ui/core/Fragment"
 ],
     /**
      * @param {typeof sap.ui.core.mvc.Controller} Controller
      */
-    function (Controller, JSONModel) {
+    function (Controller, JSONModel, Filter, Fragment) {
         "use strict";
         
         return Controller.extend("opdata.project1013.controller.Main", {
@@ -20,7 +22,9 @@ sap.ui.define([
                 this.getView().setModel(new JSONModel(oData), 'data');
             },
 
-            onRowSelectionChange: function(oEvent) {                    
+            onRowSelectionChange: function(oEvent) {  
+                if(!oEvent.getParameter('rowContext')) return;
+
                 var sPath = oEvent.getParameter('rowContext').getPath(); //Product('1000')                                
                 var oSelectData = this.getView().getModel().getProperty(sPath); //한 건의 model data - 모델경로로 해당 경로의 전체 데이터 얻음
 
@@ -62,21 +66,44 @@ sap.ui.define([
                 this.getView().getModel().refresh(true);
                
             },
-            onEntitySet: function(){
+            onEntitySet: function(oEvent){
                 // 전체 조회 구현
                 // GET 요청 : "/Products"
                 var oDataModel = this.getView().getModel();
+                var oFilter = new Filter("Productname","EQ","안녕");
+                var oDialog = this.getView().byId("idDialog");
 
-                oDataModel.read("/Products", {
-                    filters: [ /* 필터 객체 배열 */ ],
-                    success: function(oReturn){
-                        console.log("전체조회", oReturn);
-                    },
-                    error: function(oError){
-                        console.log("전체조회 중 오류 발생 ", oError);
-                    }
+                var oButton = oEvent.getSource(),
+				    oView = this.getView();
+
+                // create popover
+                if (!this._pPopover) {
+                    this._pPopover = Fragment.load({
+                        id: oView.getId(),
+                        name: "opdata.project1013.view.fragment.Popover",
+                        controller: this
+                    }).then(function(oPopover) {
+                        oPopover.setModel(new JSONModel(), 'popover')
+                        oView.addDependent(oPopover);
+                        return oPopover;
+                    });
+                }
+                this._pPopover.then(function(oPopover) {
+                    oPopover.openBy(oButton);
                 });
 
+                // oDataModel.read("/Products", {
+                //     filters: [oFilter],
+                //     success: function(oReturn){
+                //         console.log("전체조회", oReturn);
+
+                //         oDialog.setModel(new JSONModel(oReturn), "fragmentData");
+                //         oDialog.open();
+                //     },
+                //     error: function(oError){
+                //         console.log("전체조회 중 오류 발생 ", oError);
+                //     }
+                // });
             },
             onEntity: function(){
                 // 데이터 한 건 조회
@@ -159,6 +186,30 @@ sap.ui.define([
                     }
                 });
                 
+            },
+            onClose: function(oEvent) {
+                oEvent.getSource().getParent().close();
+            },
+            onRead: function(){
+                // var oPopover = sap.ui.getCore().byId("myPopover");
+
+                // Fragment.load() 사용
+                // view id를 같이 넘겨줬기 때문에 view 안에 popover가 붙게됨
+                // 따라서 this.byId() 로 접근 가능
+                var oPopover = this.byId("myPopover");
+                var oPopoverModel = oPopover.getModel('popover');
+                var oDataModel = this.getView().getModel();
+
+                var oFilter = new Filter("Productname","EQ",oPopoverModel.getData().Productname);
+                oDataModel.read("/Products", {
+                    filters: [oFilter],
+                    success: function(oReturn){
+                        console.log("전체조회", oReturn);
+                    },
+                    error: function(oError){
+                        console.log("전체조회 중 오류 발생 ", oError);
+                    }
+                });
             }
         });
     });

@@ -1,0 +1,61 @@
+<c:FragmentDefinition 
+	xmlns:c="sap.ui.core" 
+	xmlns="sap.m"
+	xmlns:t="sap.ui.table">
+    <Dialog id = "idDialog" 
+            contentWidth="100%" 
+            title="Products (+Filter)"
+            contentHeight="40%"
+            draggable="true"
+            resizable="true">
+        	<content>
+				<t:Table 	
+                    rows="{fragmentData>/results}"
+                    selectionMode="Single"
+                    rowActionCount="1"
+                    paste="onPaste"
+                    ariaLabelledBy="title"
+                    class="sapFDynamicPageAlignContent"
+                    width="auto">
+                    <t:rowActionTemplate>
+                        </t:rowActionTemplate>	
+                            <t:columns>
+                                <t:Column width="11rem">
+                                    <Label text="Productno" />
+                                    <t:template>
+                                        <Text text="{fragmentData>Productno}" wrapping="false" />
+                                    </t:template>
+                                </t:Column>					
+                            <t:Column width="11rem">
+                                <Label text="Productname" />
+                                <t:template>
+                                    <Text text="{fragmentData>Productname}" wrapping="false" />
+                                </t:template>						
+                            </t:Column>					
+                            <t:Column width="11rem">
+                                <Label text="Fname" />
+                                <t:template>
+                                    <Text text="{fragmentData>Fname}" wrapping="false" />
+                                </t:template>												
+                            </t:Column>					
+                            <t:Column width="11rem">
+                                <Label text="Lname" />
+                                <t:template>
+                                    <Text text="{fragmentData>Lname}" wrapping="false" />                                    
+                                </t:template>																		
+                                </t:Column>					
+                            <t:Column width="11rem">
+                                <Label text="Memo" />
+                                <t:template>
+                                   <Text text="{fragmentData>Memo}" wrapping="false" />
+                                </t:template>												
+                            </t:Column>		
+                        </t:columns>
+                    </t:Table>	
+        	</content>
+
+        <endButton>
+            <Button text="닫기" press="onClose" />
+        </endButton>
+    </Dialog>
+</c:FragmentDefinition>

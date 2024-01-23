@@ -1,7 +1,9 @@
-<mvc:View controllerName="sync.project1002.controller.Main"
+<mvc:View controllerName="project1015.controller.Main"
     xmlns:mvc="sap.ui.core.mvc" displayBlock="true"
     xmlns="sap.m">
     <Page id="page" title="{i18n>title}">
-        <Button text="이거슨 버튼이다옹"/>
+        <content >
+            <Text text="hihi"/>
+        </content>
     </Page>
 </mvc:View>

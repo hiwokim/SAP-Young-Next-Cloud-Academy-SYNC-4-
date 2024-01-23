@@ -1,0 +1,61 @@
+<mvc:View controllerName="exam.exprogram10.controller.Detail"
+    xmlns:mvc="sap.ui.core.mvc" displayBlock="true"
+    xmlns="sap.m"
+    xmlns:l="sap.ui.layout"
+	xmlns:f="sap.ui.layout.form"
+	xmlns:core="sap.ui.core"
+    xmlns:ux="sap.uxap">
+    <Page id="page" title="{title>/title}" showNavButton="true" navButtonPress="onNavBack">
+        <Table 	
+                id="idTable3"
+                        sticky="HeaderToolbar,ColumnHeaders"
+                            inset="false"
+                            items="{/Order_Details_Extendeds}"
+                            mode="SingleSelectMaster"
+                            selectionChange="onSelectionChange"
+                            class="sapFDynamicPageAlignContent"
+                            width="auto">
+                
+					<columns >
+						<Column
+								width="auto">
+							<Text text="주문 ID" />
+						</Column>
+                        <Column
+								width="auto">
+							<Text text="상품 이름" />
+						</Column>
+                        <Column
+								width="auto">
+							<Text text="상품 금액" />
+						</Column>
+                        <Column
+								width="auto">
+							<Text text="수량" />
+						</Column>
+                        <Column
+								width="auto">
+							<Text text="할인율" />
+						</Column>
+
+                        <Column
+								width="auto">
+							<Text text="총 금액" />
+						</Column>
+					</columns>
+					<items>
+						<ColumnListItem>
+							<cells>
+								<Text text="{OrderID}" />
+								<Text text="{ProductName}" />
+								<Text text="{UnitPrice}" />
+                                <Text text="{Quantity}" />
+                                <Text text="{Discount}" />
+                                <Text text="{ExtendedPrice}" />
+							</cells>
+						</ColumnListItem>
+					</items>
+				    </Table>
+        
+    </Page>
+</mvc:View>

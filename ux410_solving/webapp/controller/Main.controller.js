@@ -53,7 +53,6 @@ sap.ui.define([
                 
             },
             OselectData: function(oEvent){
-                debugger;
                 var OrderIDdata = oEvent.getParameters().data[0].data.OrderID;
                 var ProductIDdata = oEvent.getParameters().data[0].data.ProductID;
                 var oRouter = this.getOwnerComponent().getRouter();

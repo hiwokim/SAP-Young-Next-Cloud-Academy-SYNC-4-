@@ -7,9 +7,9 @@ sap.ui.define([
     function (Controller) {
         "use strict";
 
-        return Controller.extend("sync.project1002.controller.Main", {
+        return Controller.extend("project1015.controller.Main", {
             onInit: function () {
-                
+
             }
         });
     });

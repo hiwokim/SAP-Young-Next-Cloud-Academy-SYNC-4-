@@ -1,7 +1,7 @@
 {
   "_version": "1.59.0",
   "sap.app": {
-    "id": "sap.btp.ux410solving",
+    "id": "project1015",
     "type": "application",
     "i18n": "i18n/i18n.properties",
     "applicationVersion": {
@@ -13,18 +13,7 @@
     "sourceTemplate": {
       "id": "@sap/generator-fiori:basic",
       "version": "1.12.1",
-      "toolsId": "44c8caa4-7e73-433e-b0e8-a08a4616b32a"
-    },
-    "dataSources": {
-      "mainService": {
-        "uri": "/v2/northwind/northwind.svc/",
-        "type": "OData",
-        "settings": {
-          "annotations": [],
-          "localUri": "localService/metadata.xml",
-          "odataVersion": "2.0"
-        }
-      }
+      "toolsId": "68dee24e-b5d9-4d26-acbd-a7d63b1bbd24"
     }
   },
   "sap.ui": {
@@ -66,13 +55,8 @@
       "i18n": {
         "type": "sap.ui.model.resource.ResourceModel",
         "settings": {
-          "bundleName": "sap.btp.ux410solving.i18n.i18n"
+          "bundleName": "project1015.i18n.i18n"
         }
-      },
-      "": {
-        "dataSource": "mainService",
-        "preload": true,
-        "settings": {}
       }
     },
     "resources": {
@@ -87,7 +71,7 @@
         "routerClass": "sap.m.routing.Router",
         "viewType": "XML",
         "async": true,
-        "viewPath": "sap.btp.ux410solving.view",
+        "viewPath": "project1015.view",
         "controlAggregation": "pages",
         "controlId": "app",
         "clearControlAggregation": false
@@ -99,13 +83,6 @@
           "target": [
             "TargetMain"
           ]
-        },
-        {
-          "name": "RouteDetail",
-          "pattern": "detail/{OrderID}/{ProductID}",
-          "target": [
-            "TargetDetail"
-          ]
         }
       ],
       "targets": {
@@ -115,17 +92,11 @@
           "clearControlAggregation": false,
           "viewId": "Main",
           "viewName": "Main"
-        },
-        "TargetDetail": {
-          "transition": "slide",
-          "viewType": "XML",
-          "viewId": "Detail",
-          "viewName": "Detail"
         }
       }
     },
     "rootView": {
-      "viewName": "sap.btp.ux410solving.view.App",
+      "viewName": "project1015.view.App",
       "type": "XML",
       "async": true,
       "id": "App"

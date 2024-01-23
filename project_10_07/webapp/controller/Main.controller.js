@@ -55,7 +55,7 @@ sap.ui.define([
 
                 // var data = oModel.getData();
                 // var data2 = oModel.getProperty("/name");
-                // var data = oModel.setData({name : "홍길동" });
+                // var data = oModel.setData.name({name : "홍길동" });
                 
                 // oModel.setProperty("/name/firstName", "Park");
                 // console.log(oModel.getData());

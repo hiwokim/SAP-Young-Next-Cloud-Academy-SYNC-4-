@@ -1,7 +1,7 @@
 {
   "_version": "1.59.0",
   "sap.app": {
-    "id": "sap.btp.ux410solving",
+    "id": "exam.exprogram10",
     "type": "application",
     "i18n": "i18n/i18n.properties",
     "applicationVersion": {
@@ -12,12 +12,12 @@
     "resources": "resources.json",
     "sourceTemplate": {
       "id": "@sap/generator-fiori:basic",
-      "version": "1.12.1",
-      "toolsId": "44c8caa4-7e73-433e-b0e8-a08a4616b32a"
+      "version": "1.12.2",
+      "toolsId": "f610fcec-c803-4653-b877-72ebdb01836e"
     },
     "dataSources": {
       "mainService": {
-        "uri": "/v2/northwind/northwind.svc/",
+        "uri": "/V2/Northwind/Northwind.svc/",
         "type": "OData",
         "settings": {
           "annotations": [],
@@ -66,7 +66,7 @@
       "i18n": {
         "type": "sap.ui.model.resource.ResourceModel",
         "settings": {
-          "bundleName": "sap.btp.ux410solving.i18n.i18n"
+          "bundleName": "exam.exprogram10.i18n.i18n"
         }
       },
       "": {
@@ -87,7 +87,7 @@
         "routerClass": "sap.m.routing.Router",
         "viewType": "XML",
         "async": true,
-        "viewPath": "sap.btp.ux410solving.view",
+        "viewPath": "exam.exprogram10.view",
         "controlAggregation": "pages",
         "controlId": "app",
         "clearControlAggregation": false
@@ -102,7 +102,7 @@
         },
         {
           "name": "RouteDetail",
-          "pattern": "detail/{OrderID}/{ProductID}",
+          "pattern": "detail/{ProductName}",
           "target": [
             "TargetDetail"
           ]
@@ -125,7 +125,7 @@
       }
     },
     "rootView": {
-      "viewName": "sap.btp.ux410solving.view.App",
+      "viewName": "exam.exprogram10.view.App",
       "type": "XML",
       "async": true,
       "id": "App"

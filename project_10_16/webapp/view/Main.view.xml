@@ -1,0 +1,45 @@
+<mvc:View controllerName="project1016.controller.Main"
+    xmlns:mvc="sap.ui.core.mvc" displayBlock="true"
+    xmlns="sap.m">
+    <Page id="page" title="{i18n>title}">
+        <content>
+            <Table 
+                items="{/MemberSet}">
+                <columns>
+                    <Column>
+                        <Text text="MEMID" />
+                    </Column>
+                    <Column>
+                        <Text text="MEMNM" />
+                    </Column>
+                    <Column>
+                        <Text text="TELNO" />
+                    </Column>
+                    <Column>
+                        <Text text="EMAIL" />
+                    </Column>
+                    <Column>
+                        <Text text="IMAGE" />
+                    </Column>
+                </columns>
+                <items>
+                    <ColumnListItem 
+                        type="Active"
+                        vAlign="Middle" 
+                        press="onTableItemPress">
+                        <cells>
+                            <Text text="{Memid}" />
+                            <Text text="{Memnm}" />
+                            <Text text="{Telno}" />  
+                            <Text text="{Email}" />  
+                            <Image src="{
+                                path : 'Memid',
+                                formatter: '.setImageUrl'
+                                }" width="100px"/>
+                        </cells>
+                    </ColumnListItem>
+                </items>
+            </Table>
+        </content>
+    </Page>
+</mvc:View>

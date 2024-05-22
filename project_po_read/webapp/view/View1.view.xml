@@ -9,7 +9,7 @@
 		vertical="true"
 		focusable="true">
         <VBox class="sapUiSmallMargin">
-		<HBox>
+		<!-- <HBox>
 			<VBox class="sapUiSmallMarginEnd">
 				<Label text="Select sticky mode" labelFor="stickyModeSelect" />
 
@@ -32,28 +32,29 @@
 					<core:Item key="0" text="Sunday" />
 				</Select>
 			</VBox>
-		</HBox>
+		</HBox> -->
 		<SinglePlanningCalendar
 			id="SPC1"
 			class="sapUiSmallMarginTop"
-			title= "My Calendar"
+			title="주문 일정"
 			startDate="{path: '/startDate'}"
 			stickyMode="{settings>/stickyMode}"
-			appointments="{path: '/appointments'}">
+			appointments="{path: '/appointments'}"
+			moreLinkPress="moreLinkPress"
+			appointmentSelect="onAppointmentClick"
+			>
 			<views>
-				<SinglePlanningCalendarDayView key="DayView" title="Day" />
-				<SinglePlanningCalendarWorkWeekView key="WorkWeekView" title="Work Week" />
-				<SinglePlanningCalendarWeekView key="WeekView" title="Week" />
-				<SinglePlanningCalendarMonthView key="MonthView" title="Month" />
+				<SinglePlanningCalendarMonthView key="MonthView" title="Month"/>
 			</views>
 			<appointments>
 				<unified:CalendarAppointment
-					title= "{title}"
-					text= "{text}"
-					type= "{type}"
-					icon= "{icon}"
-					startDate= "{startDate}"
-					endDate= "{endDate}">
+					title="{title}"
+					text="{text}"
+					type="{type}"
+					icon="{icon}"
+					startDate="{startDate}"
+					endDate="{endDate}"
+					>
 				</unified:CalendarAppointment>
 			</appointments>
 		</SinglePlanningCalendar>
@@ -61,4 +62,3 @@
 	</ScrollContainer>
 	
 </mvc:View>
-

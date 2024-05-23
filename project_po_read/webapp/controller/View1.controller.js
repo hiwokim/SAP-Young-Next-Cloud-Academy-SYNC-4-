@@ -17,11 +17,11 @@ sap.ui.define([
     "use strict";
     var CalendarDayType = unifiedLibrary.CalendarDayType;
     var oDataModel = new ODataModel("/sap/opu/odata/sap/ZGW_ZBC10_SRV/", true);
-    // var oDataModel = this.getOwnerComponent().getModel();
     var Mdata = [];
     var Sdata = [];
 	var Sdata2;
     var oTable = new Table();
+    var MainData;
 
     return Controller.extend("sync.projectporead.controller.View1", {
 
@@ -30,19 +30,56 @@ sap.ui.define([
             this.createDialog();
         },
 
+        // 전체 버튼 클릭 이벤트 핸들러
+        onAllButtonClick: function() {
+            this.applyFilter("전체");
+        },
+
+        // 생두 버튼 클릭 이벤트 핸들러
+        onCoffeeButtonClick: function() {
+            this.applyFilter("생두");
+        },
+
+        // 포장재 버튼 클릭 이벤트 핸들러
+        onPackagingButtonClick: function() {
+            this.applyFilter("포장재");
+        },
+
+        applyFilter: function(filter) {
+            var oModel = this.getView().getModel();
+            var oData;
+            oData.setData(MainData);
+            var filteredAppointments = [];
+
+            // 모든 약속을 필터링하여 새로운 배열에 추가
+            oData.appointments.forEach(function(appointment) {
+                if (filter === "전체" || (filter === "생두" && appointment.text.endsWith("생두")) || (filter === "포장재" && appointment.text.endsWith("포장재"))) {
+                    filteredAppointments.push(appointment);
+                }
+            });
+
+            // 필터링된 약속을 모델에 설정하여 약속을 다시 렌더링
+            oModel.setProperty("/appointments", filteredAppointments);
+        },
+
         moreLinkPress: function(oEvent) {
             var oDate = oEvent.getParameter("date");
             oDate.setHours(9, 0, 0, 0);
             Sdata = Mdata.filter(function(item) {
-                return item.OrderDate <= oDate && item.DueDate >= oDate;
+                if (item.OrderDate && item.DueDate) { // 주문일과 납기일이 존재하는 경우에만 필터링
+                    var orderDate = item.OrderDate;
+                    var dueDate = item.DueDate;
+                    return orderDate <= oDate && dueDate >= oDate;
+                }
+                return false; // 주문일 또는 납기일이 없는 경우 필터링되지 않도록 false 반환
             }).map(function(item, index) {
                 item.Index = index + 1; // 인덱스를 추가
                 return item;
             });
-
+        
             var oTableModel = new JSONModel(Sdata);
             oTable.setModel(oTableModel);
-
+        
             this.oDialog.open();
         },
 
@@ -76,9 +113,9 @@ sap.ui.define([
         onAppointmentClick: function(oEvent) {
 			var oAppointment = oEvent.getParameter("appointment");
 			if (oAppointment) {
-				var sTitle = oAppointment.getTitle();
+				var sText = oAppointment.getText();
 				Sdata2 = Mdata.filter(function(item) {
-					return item.Product === sTitle;
+					return item.Product === sText;
 				});
 
 				// 다이얼로그 생성
@@ -153,6 +190,7 @@ sap.ui.define([
                 { label: "원화 통화", path: "Tcurr" },
                 { label: "단가", path: "Uprice" },
                 { label: "단가 통화", path: "Cuky" }
+           
             ];
 
             oColumnNames.forEach(function(col) {
@@ -180,79 +218,87 @@ sap.ui.define([
         },
 
         set_range: function() {
-            var today = new Date();   
+            var today = new Date();
             var year = today.getFullYear();
             var month = today.getMonth();
             var date = today.getDate();
-            var oModel_cal = new JSONModel({
+            var oModel = new JSONModel({
                 startDate: UI5Date.getInstance(year, month, date),
                 appointments: []
             });
-            this.getView().setModel(oModel_cal);
+            this.getView().setModel(oModel);
 
             oDataModel.read("/ZBCT_IMP_POSet", {
                 success: function(oReturn) {
                     console.log(oReturn);
-                    var oData = oModel_cal.getData();
+                    var oData = oModel.getData();
                     Mdata = oReturn.results;
 
                     // 주문 번호(Pono)로 정렬
                     Mdata.sort(function(a, b) {
-						return b.Pono.localeCompare(a.Pono);
-					});
+                        return b.Pono.localeCompare(a.Pono);
+                    });
 
                     // 인덱스 값 추가 및 랜덤한 type 설정
                     Mdata.forEach(function(item, index) {
                         item.Index = index + 1;
-                        let year_o = item.OrderDate.getFullYear();
-                        let month_o = item.OrderDate.getMonth();
-                        let date_o = item.OrderDate.getDate();
-                        let year_d = item.DueDate.getFullYear();
-                        let month_d = item.DueDate.getMonth();
-                        let date_d = item.DueDate.getDate();
-						let randomType = Math.floor(Math.random() * 7); // 0부터 6까지의 랜덤 정수
-						let calendarDayType;
-						switch (randomType) {
-							case 0:
-								calendarDayType = CalendarDayType.Type01;
-								break;
-							case 1:
-								calendarDayType = CalendarDayType.Type02;
-								break;
-							case 2:
-								calendarDayType = CalendarDayType.Type03;
-								break;
-							case 3:
-								calendarDayType = CalendarDayType.Type04;
-								break;
-							case 4:
-								calendarDayType = CalendarDayType.Type05;
-								break;
-							case 5:
-								calendarDayType = CalendarDayType.Type06;
-								break;
-							case 6:
-								calendarDayType = CalendarDayType.Type07;
-								break;
-							default:
-								calendarDayType = CalendarDayType.Type01;
-								break;
-						}
 
-						oData.appointments.push({
-							title: item.Product,
-							type: calendarDayType,
-							startDate: UI5Date.getInstance(year_o, month_o, date_o),
-							endDate: UI5Date.getInstance(year_d, month_d, date_d)
-						});
-                    });
-                    oModel_cal.setProperty("/oData", oData);
-                },
+                        let year_o = new Date(item.OrderDate).getFullYear();
+                        let month_o = new Date(item.OrderDate).getMonth();
+                        let date_o = new Date(item.OrderDate).getDate();
+                        let year_d = new Date(item.DueDate).getFullYear();
+                        let month_d = new Date(item.DueDate).getMonth();
+                        let date_d = new Date(item.DueDate).getDate();
+
+                        let randomType = Math.floor(Math.random() * 7); // 0부터 6까지의 랜덤 정수
+                        let calendarDayType;
+                        switch (randomType) {
+                            case 0:
+                                calendarDayType = CalendarDayType.Type01;
+                                break;
+                            case 1:
+                                calendarDayType = CalendarDayType.Type02;
+                                break;
+                            case 2:
+                                calendarDayType = CalendarDayType.Type03;
+                                break;
+                            case 3:
+                                calendarDayType = CalendarDayType.Type04;
+                                break;
+                            case 4:
+                                calendarDayType = CalendarDayType.Type05;
+                                break;
+                            case 5:
+                                calendarDayType = CalendarDayType.Type06;
+                                break;
+                            case 6:
+                                calendarDayType = CalendarDayType.Type07;
+                                break;
+                            default:
+                                calendarDayType = CalendarDayType.Type01;
+                                break;
+                        }
+                        if(item.OrderDate != "" && item.DueDate != ""){
+                            oData.appointments.push({
+                                title: item.Product + "  " + year_o + "/" + (month_o+1) + "/" + date_o 
+                                                    + "~" + year_d + "/" + (month_d+1) + "/" + date_d,
+                                text: item.Product,
+                                type: calendarDayType,
+                                startDate: UI5Date.getInstance(year_o, month_o, date_o),
+                                endDate: UI5Date.getInstance(year_d, month_d, date_d)
+                            });
+                        }
+    
+                    }.bind(this)); // `this`를 유지하기 위해 바인딩
+
+                    oModel.setProperty("/appointments", oData.appointments); // 수정된 부분
+                    MainData = oModel.getData();
+                }.bind(this), // `this`를 유지하기 위해 바인딩
                 error: function(oError) {
                     MessageToast.show("Error loading data");
                 }
             });
-        },
+        },    
 
         formatDate: function(date) {
             if (date) {
@@ -274,7 +320,6 @@ sap.ui.define([
                 return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
             }
             return number;
-        }
-
+        },
     });
 });

@@ -9,34 +9,16 @@
 		vertical="true"
 		focusable="true">
         <VBox class="sapUiSmallMargin">
-		<!-- <HBox>
-			<VBox class="sapUiSmallMarginEnd">
-				<Label text="Select sticky mode" labelFor="stickyModeSelect" />
-
-				<Select id="stickyModeSelect" selectedKey="{settings>/stickyMode}">
-					<core:ListItem text="None" key="None" />
-					<core:ListItem text="All" key="All" />
-					<core:ListItem text="NavBarAndColHeaders" key="NavBarAndColHeaders" />
-				</Select>
-			</VBox>
-			<VBox width="180px">
-				<Label text="Choose first day of week:"/>
-				<Select change=".onChange">
-					<core:Item key="-1" text="Locale-based" />
-					<core:Item key="1" text="Monday" />
-					<core:Item key="2" text="Tuesday" />
-					<core:Item key="3" text="Wednesday" />
-					<core:Item key="4" text="Thursday" />
-					<core:Item key="5" text="Friday" />
-					<core:Item key="6" text="Saturday" />
-					<core:Item key="0" text="Sunday" />
-				</Select>
-			</VBox>
-		</HBox> -->
+		<HBox alignItems="Center">
+            <Text text="필터: " class="sapUiTinyMarginEnd"/>
+			<Button text="전체" press="allButtonClick" class="sapUiTinyMarginEnd" />
+            <Button text="생두" press="onCoffeeButtonClick" class="sapUiTinyMarginEnd" />
+            <Button text="포장재" press="onPackagingButtonClick"/>
+		</HBox>
 		<SinglePlanningCalendar
 			id="SPC1"
 			class="sapUiSmallMarginTop"
-			title="주문 일정"
+			title="주문 및 납기 일정"
 			startDate="{path: '/startDate'}"
 			stickyMode="{settings>/stickyMode}"
 			appointments="{path: '/appointments'}"
@@ -60,5 +42,4 @@
 		</SinglePlanningCalendar>
 	</VBox>
 	</ScrollContainer>
-	
 </mvc:View>

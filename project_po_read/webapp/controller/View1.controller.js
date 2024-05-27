@@ -26,6 +26,7 @@ sap.ui.define([
     return Controller.extend("sync.projectporead.controller.View1", {
 
         onInit: function() {
+            
             this.set_range();
             this.createDialog();
         },
@@ -47,29 +48,45 @@ sap.ui.define([
 
         applyFilter: function(filter) {
             var oModel = this.getView().getModel();
-            var oData;
-            oData.setData(MainData);
-            var filteredAppointments = [];
+            var oData = MainData;
+            
+            // 새로운 배열을 생성하여 필터링된 결과 저장
+            var filteredAppointments = oData.appointments.filter(function(appointment) {
+                return filter === "전체" || 
+                    (filter === "생두" && appointment.text.endsWith("생두")) || 
+                    (filter === "포장재" && appointment.text.endsWith("포장재"));
+            });
 
-            // 모든 약속을 필터링하여 새로운 배열에 추가
-            oData.appointments.forEach(function(appointment) {
-                if (filter === "전체" || (filter === "생두" && appointment.text.endsWith("생두")) || (filter === "포장재" && appointment.text.endsWith("포장재"))) {
-                    filteredAppointments.push(appointment);
-                }
+            filteredAppointments.forEach(function(appointment) {
+                appointment.startDate = new Date(appointment.startDate);
+                appointment.endDate = new Date(appointment.endDate);
             });
 
             // 필터링된 약속을 모델에 설정하여 약속을 다시 렌더링
             oModel.setProperty("/appointments", filteredAppointments);
+            
         },
 
         moreLinkPress: function(oEvent) {
+            
             var oDate = oEvent.getParameter("date");
+            var oModel = this.getView().getModel();
+            var oAppointments = oModel.getProperty("/appointments");
             oDate.setHours(9, 0, 0, 0);
+
             Sdata = Mdata.filter(function(item) {
-                if (item.OrderDate && item.DueDate) { // 주문일과 납기일이 존재하는 경우에만 필터링
+                if (item.OrderDate && item.DueDate) {
                     var orderDate = item.OrderDate;
                     var dueDate = item.DueDate;
-                    return orderDate <= oDate && dueDate >= oDate;
+                    
+                    // 주문일이 oDate보다 이전이고 납기일이 oDate보다 이후인 경우 필터링
+                    // if (orderDate <= oDate && dueDate >= oDate) {
+                    if ((orderDate == oDate) || (dueDate == oDate)) {
+                        // oAppointments의 각 항목과 비교하여 Product 이름과 타이틀이 같은 경우 필터링
+                        return oAppointments.some(function(appointment) {
+                            return appointment.text === item.Product; // title을 text로 변경
+                        });
+                    }
                 }
                 return false; // 주문일 또는 납기일이 없는 경우 필터링되지 않도록 false 반환
             }).map(function(item, index) {
@@ -93,7 +110,7 @@ sap.ui.define([
                         press: function() {
                             this.oDialog.close();
                         }.bind(this)
-                    })
+                    }),
                 });
 
                 this.getView().addDependent(this.oDialog);
@@ -292,7 +309,7 @@ sap.ui.define([
                     }.bind(this)); // `this`를 유지하기 위해 바인딩
 
                     oModel.setProperty("/appointments", oData.appointments); // 수정된 부분
-                    MainData = oModel.getData();
+                    MainData = JSON.parse(JSON.stringify(oModel.getData()));
                 }.bind(this), // `this`를 유지하기 위해 바인딩
                 error: function(oError) {
                     MessageToast.show("Error loading data");

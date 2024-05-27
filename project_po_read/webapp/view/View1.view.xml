@@ -10,10 +10,10 @@
 		focusable="true">
         <VBox class="sapUiSmallMargin">
 		<HBox alignItems="Center">
-            <Text text="필터: " class="sapUiTinyMarginEnd"/>
-			<Button text="전체" press="allButtonClick" class="sapUiTinyMarginEnd" />
-            <Button text="생두" press="onCoffeeButtonClick" class="sapUiTinyMarginEnd" />
-            <Button text="포장재" press="onPackagingButtonClick"/>
+            <Text text="검색조건 : " class="sapUiTinyMarginEnd"/>
+			<Button text="전체" type="Emphasized" press="onAllButtonClick" class="sapUiTinyMarginEnd" />
+            <Button text="생두" type="Emphasized" press="onCoffeeButtonClick" class="sapUiTinyMarginEnd" />
+            <Button text="포장재" type="Emphasized" press="onPackagingButtonClick"/>
 		</HBox>
 		<SinglePlanningCalendar
 			id="SPC1"

@@ -16,19 +16,16 @@ sap.ui.define([
 
             oDataModel.read("/ZBCT_CUST_MSet", {
                 success: function(oData) {
-                    // 각 데이터 항목에 Rating 기본값 추가
-
                     // JSON 모델에 데이터 설정
                     var oJSONModel = new JSONModel({ results: oData.results });
                     oView.setModel(oJSONModel);
                     Mdata = oData.results;
-                    this.onFilterByMatnr("ALL"); // 그 후 필터링 적용
+                    this.onFilterByMatnr("ALL"); // 필터링 적용
                 }.bind(this),
                 error: function(oError) {
-                    MessageToast.show("Error loading data");
+                    MessageToast.show("데이터 로드 오류");
                 }
             });
-            
         },
 
         onImportVendorFilter: function() {
@@ -81,24 +78,24 @@ sap.ui.define([
                         }),
                         new sap.m.ObjectIdentifier({ text: "{filteredModel>PartnerId}" }),
                         new sap.m.Text({ text: "{filteredModel>PartnerName}" }),
-                        new sap.m.RatingIndicator({ value: "{filteredModel>Rating}", iconSize: "1rem" }),
+                        new sap.m.RatingIndicator({ value: "{filteredModel>Rating}", iconSize: "1rem", editable: false, enabled: false }), // 수정 불가능하고 비활성화 설정
                         new sap.m.Text({ text: "{filteredModel>Crnum}" }),
                         new sap.m.Text({ text: "{filteredModel>Telno}" }),
                         new sap.m.Text({ text: "{filteredModel>Address}" }),
                         new sap.m.Button({ text: "위치 확인", press: this.onLocationCheck.bind(this) }) // 버튼 추가
-                        // new sap.m.Text({ text: "{filteredModel>Matnr}" }),
-                        // new sap.m.Text({ text: "{filteredModel>Manam}" })
-                    ]
+                    ],
+                    type: "Inactive" // 행 클릭 비활성화
                 })
             });
         },
+
         onLocationCheck: function(event) {
             // 이벤트에서 바인딩된 데이터 가져오기
             var oContext = event.getSource().getBindingContext("filteredModel");
             var oData = oContext.getObject();
             var lat = parseFloat(oData.Lat); // lat 값
             var lng = parseFloat(oData.Lng); // lng 값
-        
+
             // 다이얼로그 생성
             var oDialog = new sap.m.Dialog({
                 title: "고객사 위치",
@@ -156,10 +153,8 @@ sap.ui.define([
                                       </div>`
                         });
                         
-                        // 마커 클릭 시 인포윈도우 열기
-                        marker.addListener('click', function() {
-                            infowindow.open(map, marker);
-                        });
+                        // 인포윈도우 열기
+                        infowindow.open(map, marker);
                     }
                 }
             });
@@ -167,8 +162,5 @@ sap.ui.define([
             // 다이얼로그 열기
             oDialog.open();
         }
-        
-        
-        
     });
 });

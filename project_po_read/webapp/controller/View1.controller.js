@@ -80,8 +80,8 @@ sap.ui.define([
                     var dueDate = item.DueDate;
                     
                     // 주문일이 oDate보다 이전이고 납기일이 oDate보다 이후인 경우 필터링
-                    // if (orderDate <= oDate && dueDate >= oDate) {
-                    if ((orderDate == oDate) || (dueDate == oDate)) {
+                    if (orderDate <= oDate && dueDate >= oDate) {
+                    // if ((orderDate == oDate) || (dueDate == oDate)) {
                         // oAppointments의 각 항목과 비교하여 Product 이름과 타이틀이 같은 경우 필터링
                         return oAppointments.some(function(appointment) {
                             return appointment.text === item.Product; // title을 text로 변경
@@ -267,44 +267,29 @@ sap.ui.define([
                         let month_d = new Date(item.DueDate).getMonth();
                         let date_d = new Date(item.DueDate).getDate();
 
-                        let randomType = Math.floor(Math.random() * 7); // 0부터 6까지의 랜덤 정수
-                        let calendarDayType;
-                        switch (randomType) {
-                            case 0:
-                                calendarDayType = CalendarDayType.Type01;
-                                break;
-                            case 1:
-                                calendarDayType = CalendarDayType.Type02;
-                                break;
-                            case 2:
-                                calendarDayType = CalendarDayType.Type03;
-                                break;
-                            case 3:
-                                calendarDayType = CalendarDayType.Type04;
-                                break;
-                            case 4:
-                                calendarDayType = CalendarDayType.Type05;
-                                break;
-                            case 5:
-                                calendarDayType = CalendarDayType.Type06;
-                                break;
-                            case 6:
-                                calendarDayType = CalendarDayType.Type07;
-                                break;
-                            default:
-                                calendarDayType = CalendarDayType.Type01;
-                                break;
+                        var calendarDayType;
+
+                        if (item.Pono.startsWith('IPO')) {
+                            calendarDayType = CalendarDayType.Type08;
+                        } else if (item.Pono.startsWith('KPO')) {
+                            calendarDayType = CalendarDayType.Type06;
+                        } else {
+                            // 기본 타입 설정 또는 예외 처리
+                            calendarDayType = CalendarDayType.Type01; // 또는 다른 기본 타입 설정
                         }
-                        if(item.OrderDate != "" && item.DueDate != ""){
-                            oData.appointments.push({
-                                title: item.Product + "  " + year_o + "/" + (month_o+1) + "/" + date_o 
-                                                    + "~" + year_d + "/" + (month_d+1) + "/" + date_d,
-                                text: item.Product,
-                                type: calendarDayType,
-                                startDate: UI5Date.getInstance(year_o, month_o, date_o),
-                                endDate: UI5Date.getInstance(year_d, month_d, date_d)
-                            });
+                        if((item.Pono.startsWith('IPO'))||(item.Pono.startsWith('KPO'))){
+                            if((item.OrderDate != "" && item.DueDate != "")){
+                                oData.appointments.push({
+                                    title: item.Product + "  " + year_o + "/" + (month_o+1) + "/" + date_o 
+                                                        + "~" + year_d + "/" + (month_d+1) + "/" + date_d,
+                                    text: item.Product,
+                                    type: calendarDayType,
+                                    startDate: UI5Date.getInstance(year_o, month_o, date_o),
+                                    endDate: UI5Date.getInstance(year_d, month_d, date_d)
+                                });
+                            }
                         }
+                        
     
                     }.bind(this)); // `this`를 유지하기 위해 바인딩
 

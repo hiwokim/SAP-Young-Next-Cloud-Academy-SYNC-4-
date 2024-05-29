@@ -4,8 +4,11 @@ sap.ui.define([
     "sap/ui/model/odata/v2/ODataModel",
     "sap/ui/model/Filter",
     "sap/ui/model/FilterOperator",
-    "sap/m/MessageToast"
-], function (Controller, JSONModel, ODataModel, Filter, FilterOperator, MessageToast) {
+    "sap/m/MessageToast",
+    "sap/m/Dialog",
+    "sap/m/Image",
+    "sap/m/HBox"
+], function (Controller, JSONModel, ODataModel, Filter, FilterOperator, MessageToast, Dialog, Image, HBox) {
     "use strict";
     var Mdata;
 
@@ -73,8 +76,9 @@ sap.ui.define([
                                     return imageUrl;
                                 }
                             },
-                            width: "75px",
-                            height: "75px"
+                            width: "100px",
+                            height: "auto",
+                            press: this.onImagePress.bind(this) // 이미지 클릭 이벤트 바인딩
                         }),
                         new sap.m.ObjectIdentifier({ text: "{filteredModel>PartnerId}" }),
                         new sap.m.Text({ text: "{filteredModel>PartnerName}" }),
@@ -82,11 +86,61 @@ sap.ui.define([
                         new sap.m.Text({ text: "{filteredModel>Crnum}" }),
                         new sap.m.Text({ text: "{filteredModel>Telno}" }),
                         new sap.m.Text({ text: "{filteredModel>Address}" }),
-                        new sap.m.Button({ text: "위치 확인", press: this.onLocationCheck.bind(this) }) // 버튼 추가
+                        new sap.m.HBox({
+                            justifyContent: "Center", // 아이콘을 가운데 정렬
+                            items: [
+                                new sap.ui.core.Icon({
+                                    src: "sap-icon://SAP-icons-TNT/escalation-end-event",
+                                    size: "2rem", // 아이콘 크기 설정
+                                    color: "green",
+                                    press: this.onLocationCheck.bind(this) // 아이콘 클릭 이벤트 바인딩
+                                })
+                            ]
+                        })
                     ],
                     type: "Inactive" // 행 클릭 비활성화
                 })
             });
+        },
+
+        onImagePress: function(oEvent) {
+            var sImageSrc = oEvent.getSource().getSrc();
+
+            // 이미지 객체 생성
+            var oImage = new sap.m.Image({
+                src: sImageSrc,
+                width: "300px", // 이미지의 가로 크기를 300px로 설정
+                height: "auto", // 세로 크기는 자동으로 조정됨
+                densityAware: false
+            });
+
+            // 중앙 정렬을 위한 VBox 컨테이너 생성
+            var oVBox = new sap.m.VBox({
+                items: [oImage],
+                justifyContent: "Center",
+                alignItems: "Center",
+                width: "100%",
+                height: "100%"
+            });
+
+            // 다이얼로그 생성
+            var oImageDialog = new sap.m.Dialog({
+                title: "이미지 확대 보기",
+                contentWidth: "auto",
+                contentHeight: "auto",
+                horizontalScrolling: false,
+                verticalScrolling: false,
+                content: oVBox,
+                beginButton: new sap.m.Button({
+                    text: "닫기",
+                    press: function() {
+                        oImageDialog.close();
+                    }
+                })
+            });
+
+            // 다이얼로그 열기
+            oImageDialog.open();
         },
 
         onLocationCheck: function(event) {
@@ -148,13 +202,20 @@ sap.ui.define([
                         // 인포윈도우 생성
                         var infowindow = new google.maps.InfoWindow({
                             content: `<div>
-                                        <h3>${oData.PartnerName}</h3>
+                                        <h1>${oData.PartnerName}</h1>
                                         <p>${oData.Address}</p>
                                       </div>`
+                        
                         });
+
+                        
                         
                         // 인포윈도우 열기
                         infowindow.open(map, marker);
+
+                        marker.addListener('click', function() {
+                            infowindow.open(map, marker);
+                        });
                     }
                 }
             });

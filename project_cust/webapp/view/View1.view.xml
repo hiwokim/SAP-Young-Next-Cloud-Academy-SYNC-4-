@@ -24,7 +24,7 @@
                         <Column hAlign="Center">
                             <Text text="고객 ID"/>
                         </Column>
-                        <Column hAlign="Center">
+                        <Column hAlign="Center" width="150px">
                             <Text text="고객명"/>
                         </Column>
                         <Column hAlign="Center">

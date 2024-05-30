@@ -142,19 +142,16 @@ sap.ui.define([
 					contentHeight: "auto",
 					content: new Table({
 						columns: [
-							new Column({ header: new Text({ text: "주문 번호" }) }),
-							new Column({ header: new Text({ text: "송장 번호" }) }),
-							new Column({ header: new Text({ text: "주문일" }) }),
-							new Column({ header: new Text({ text: "납기일" }) }),
-							new Column({ header: new Text({ text: "공급업체명" }) }),
-							new Column({ header: new Text({ text: "국가명" }) }),
-							new Column({ header: new Text({ text: "상품명" }) }),
-							new Column({ header: new Text({ text: "갯수" }) }),
-							new Column({ header: new Text({ text: "단위" }) }),
-							new Column({ header: new Text({ text: "원화 총 가격" }) }),
-							new Column({ header: new Text({ text: "원화 통화" }) }),
-							new Column({ header: new Text({ text: "단가" }) }),
-							new Column({ header: new Text({ text: "단가 통화" }) })
+							new Column({ header: new Text({ text: "주문 번호" }), width: "150px", hAlign: "Center" }),
+							new Column({ header: new Text({ text: "송장 번호" }), width: "150px", hAlign: "Center" }),
+							new Column({ header: new Text({ text: "주문일" }), hAlign: "Center" }),
+							new Column({ header: new Text({ text: "납기일" }), hAlign: "Center" }),
+							new Column({ header: new Text({ text: "공급업체명" }), width: "150px", hAlign: "Center" }),
+							new Column({ header: new Text({ text: "국가명" }), hAlign: "Center" }),
+							new Column({ header: new Text({ text: "상품명" }), width: "180px", hAlign: "Center" }),
+							new Column({ header: new Text({ text: "갯수" }), hAlign: "Center" }),
+							new Column({ header: new Text({ text: "원화 총 가격" }), width: "180px", hAlign: "Center" }),
+							new Column({ header: new Text({ text: "단가" }), hAlign: "Center" }),
 						],
 						items: [
 							new ColumnListItem({
@@ -166,12 +163,9 @@ sap.ui.define([
 									new Text({ text: Sdata2[0].Venam }),
 									new Text({ text: Sdata2[0].FromNa }),
 									new Text({ text: Sdata2[0].Product }),
-									new Text({ text: this.formatNumber(Sdata2[0].Weight) }),
-									new Text({ text: this.formatUnit(Sdata2[0].WUnit) }),
-									new Text({ text: this.formatNumber(Sdata2[0].KPrice) }),
-									new Text({ text: Sdata2[0].Tcurr }),
-									new Text({ text: this.formatNumber(Sdata2[0].Uprice ) }),
-									new Text({ text: this.formatUnit(Sdata2[0].Cuky ) })
+									new Text({ text: this.formatNumber(Sdata2[0].Weight) + " " + this.formatUnit(Sdata2[0].WUnit)}),
+									new Text({ text: this.formatNumber(Sdata2[0].KPrice) + " " + Sdata2[0].Tcurr}), 
+									new Text({ text: this.formatNumber(Sdata2[0].Uprice ) + " " + Sdata2[0].Cuky }), 
 								]
 							})
 						]
@@ -193,26 +187,56 @@ sap.ui.define([
             oTable.removeAllColumns();
 
             var oColumnNames = [
-                { label: "Index", path: "Index" }, // 인덱스 열 추가
-                { label: "주문 번호", path: "Pono" },
-                { label: "송장 번호", path: "InvoiceNum" },
+                { label: "번호", path: "Index", width: "50px" }, // 인덱스 열 추가
+                { label: "주문 번호", path: "Pono", width: "150px" },
+                { label: "송장 번호", path: "InvoiceNum", width: "150px" },
                 { label: "주문일", path: "OrderDate", formatter: this.formatDate },
                 { label: "납기일", path: "DueDate", formatter: this.formatDate },
-                { label: "공급업체명", path: "Venam" },
+                { label: "공급업체명", path: "Venam", width: "150px" },
                 { label: "국가명", path: "FromNa" },
-                { label: "상품명", path: "Product" },
-                { label: "갯수", path: "Weight", formatter: this.formatNumber  },
-                { label: "단위", path: "WUnit", formatter: this.formatUnit },
-                { label: "원화 총 가격", path: "KPrice", formatter: this.formatNumber }, // 콤마 포맷터 추가
-                { label: "원화 통화", path: "Tcurr" },
-                { label: "단가", path: "Uprice" },
-                { label: "단가 통화", path: "Cuky" }
-           
+                { label: "상품명", path: "Product", width: "180px" },
+                {
+                    label: "갯수",
+                    parts: ["Weight", "WUnit"], // 두 경로를 사용
+                    formatter: function(weight, unit) {
+                        if (unit === "KGM") {
+                            unit = "KG";
+                        }
+                        weight = parseFloat(weight); // 숫자로 변환
+                        if (!isNaN(weight)) {
+                            return weight.toLocaleString() + " " + unit;
+                        }
+                        return "";
+                    }
+                },
+                {
+                    label: "원화 총 가격",
+                    parts: ["KPrice", "Tcurr"], // 두 경로를 사용
+                    formatter: function(kprice, tcurr) {
+                        kprice = parseFloat(kprice); // 숫자로 변환
+                        if (!isNaN(kprice)) {
+                            return kprice.toLocaleString() + " " + tcurr;
+                        }
+                        return "";
+                    },
+                    width: "180px" // 너비 조정
+                },
+
+                {
+                    label: "단가",
+                    parts: [ "Uprice", "Cuky" ], // 두 경로를 사용
+                    formatter: function(uprice, cuky) {
+                        return uprice + " " + cuky;
+                    }
+                }
             ];
+            
 
             oColumnNames.forEach(function(col) {
                 oTable.addColumn(new Column({
-                    header: new Label({ text: col.label })
+                    header: new Label({ text: col.label }),
+                    width: col.width,
+                    hAlign: "Center"
                 }));
             });
 
@@ -220,12 +244,23 @@ sap.ui.define([
                 path: "/",
                 template: new ColumnListItem({
                     cells: oColumnNames.map(function(col) {
-                        return new Text({ 
-                            text: {
-                                path: col.path,
-                                formatter: col.formatter // 포맷터 추가
-                            }
-                        });
+                        if (col.parts) {
+                            return new Text({
+                                text: {
+                                    parts: col.parts.map(function(part) {
+                                        return { path: part };
+                                    }),
+                                    formatter: col.formatter
+                                }
+                            });
+                        } else {
+                            return new Text({
+                                text: {
+                                    path: col.path,
+                                    formatter: col.formatter
+                                }
+                            });
+                        }
                     })
                 }),
             });
@@ -256,7 +291,7 @@ sap.ui.define([
                         return b.Pono.localeCompare(a.Pono);
                     });
 
-                    // 인덱스 값 추가 및 랜덤한 type 설정
+                    // 인덱스 값 추가
                     Mdata.forEach(function(item, index) {
                         item.Index = index + 1;
 
@@ -268,24 +303,28 @@ sap.ui.define([
                         let date_d = new Date(item.DueDate).getDate();
 
                         var calendarDayType;
+                        var icon;
 
                         if (item.Pono.startsWith('IPO')) {
                             calendarDayType = CalendarDayType.Type08;
+                            icon = "../img/coffee.jpg"
                         } else if (item.Pono.startsWith('KPO')) {
                             calendarDayType = CalendarDayType.Type06;
+                            icon = "../img/package.jpg"
                         } else {
                             // 기본 타입 설정 또는 예외 처리
                             calendarDayType = CalendarDayType.Type01; // 또는 다른 기본 타입 설정
                         }
                         if((item.Pono.startsWith('IPO'))||(item.Pono.startsWith('KPO'))){
-                            if((item.OrderDate != "" && item.DueDate != "")){
+                            if((item.OrderDate != "" && item.DueDate != "" && item.InvoiceNum != "")){
                                 oData.appointments.push({
-                                    title: item.Product + "  " + year_o + "/" + (month_o+1) + "/" + date_o 
-                                                        + "~" + year_d + "/" + (month_d+1) + "/" + date_d,
+                                    title: item.Product + "  [ " + year_o + "/" + (month_o+1) + "/" + date_o 
+                                                        + " ~ " + year_d + "/" + (month_d+1) + "/" + date_d + " ]",
                                     text: item.Product,
                                     type: calendarDayType,
                                     startDate: UI5Date.getInstance(year_o, month_o, date_o),
-                                    endDate: UI5Date.getInstance(year_d, month_d, date_d)
+                                    endDate: UI5Date.getInstance(year_d, month_d, date_d),
+                                    icon: icon
                                 });
                             }
                         }
@@ -312,9 +351,10 @@ sap.ui.define([
 
         formatUnit: function(unit) {
             if (unit === "KGM") {
-                return "KG";
+                return " KG";
+            } else if (unit === "EA") {
+                return " EA";
             }
-            return unit;
         },
 
         formatNumber: function(number) {

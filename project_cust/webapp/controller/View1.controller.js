@@ -57,6 +57,11 @@ sap.ui.define([
                 });
             }
 
+                // PartnerId 기준으로 중복 제거
+            Sdata = Array.from(
+                new Map(Sdata.map(item => [item.PartnerId, item])).values()
+            );
+
             // 필터링된 데이터를 JSON 모델에 설정
             var oFilteredModel = new JSONModel({ results: Sdata });
             this.getView().setModel(oFilteredModel, "filteredModel");

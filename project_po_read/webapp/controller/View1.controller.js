@@ -26,9 +26,48 @@ sap.ui.define([
     return Controller.extend("sync.projectporead.controller.View1", {
 
         onInit: function() {
-            
             this.set_range();
             this.createDialog();
+        },
+
+        setCount: function() {
+            var oModel = this.getView().getModel();
+            var oData = oModel.getProperty("/appointments"); // Fetch appointments data from the model
+            var allCount = oData.length;
+        
+            var coffeeCount = oData.filter(function(appointment) {
+                return appointment.text.includes('생두');
+            }).length;
+        
+            var packagingCount = oData.filter(function(appointment) {
+                return appointment.text.includes('포장재');
+            }).length;
+        
+            var oAllTab = this.byId("allTab");
+            oAllTab.setCount(allCount.toString());
+        
+            var oCoffeeTab = this.byId("coffeeTab");
+            oCoffeeTab.setCount(coffeeCount.toString());
+        
+            var oPackagingTab = this.byId("packagingTab");
+            oPackagingTab.setCount(packagingCount.toString());
+        },
+        
+
+        onTabSelect: function(oEvent) {
+            var sKey = oEvent.getParameter("key");
+
+            switch (sKey) {
+                case "all":
+                    this.onAllButtonClick();
+                    break;
+                case "coffee":
+                    this.onCoffeeButtonClick();
+                    break;
+                case "packaging":
+                    this.onPackagingButtonClick();
+                    break;
+            }
         },
 
         // 전체 버튼 클릭 이벤트 핸들러
@@ -106,7 +145,7 @@ sap.ui.define([
                     title: "주문 정보",
                     content: oTable,
                     endButton: new Button({
-                        text: "Cancel",
+                        text: "닫기",
                         press: function() {
                             this.oDialog.close();
                         }.bind(this)
@@ -131,9 +170,12 @@ sap.ui.define([
 			var oAppointment = oEvent.getParameter("appointment");
 			if (oAppointment) {
 				var sText = oAppointment.getText();
-				Sdata2 = Mdata.filter(function(item) {
-					return item.Product === sText;
-				});
+                if(oAppointment.getText() != null){
+                    Sdata2 = Mdata.filter(function(item) {
+                        return item.Product === sText && item.InvoiceNum !== "";
+                    });
+                }
+
 
 				// 다이얼로그 생성
 				var oDialog = new Dialog({
@@ -148,7 +190,7 @@ sap.ui.define([
 							new Column({ header: new Text({ text: "납기일" }), hAlign: "Center" }),
 							new Column({ header: new Text({ text: "공급업체명" }), width: "150px", hAlign: "Center" }),
 							new Column({ header: new Text({ text: "국가명" }), hAlign: "Center" }),
-							new Column({ header: new Text({ text: "상품명" }), width: "180px", hAlign: "Center" }),
+							new Column({ header: new Text({ text: "상품명" }), width: "200px", hAlign: "Center" }),
 							new Column({ header: new Text({ text: "갯수" }), hAlign: "Center" }),
 							new Column({ header: new Text({ text: "원화 총 가격" }), width: "180px", hAlign: "Center" }),
 							new Column({ header: new Text({ text: "단가" }), hAlign: "Center" }),
@@ -171,7 +213,7 @@ sap.ui.define([
 						]
 					}),
 					beginButton: new Button({
-						text: "Close",
+						text: "닫기",
 						press: function() {
 							oDialog.close();
 						}
@@ -194,7 +236,7 @@ sap.ui.define([
                 { label: "납기일", path: "DueDate", formatter: this.formatDate },
                 { label: "공급업체명", path: "Venam", width: "150px" },
                 { label: "국가명", path: "FromNa" },
-                { label: "상품명", path: "Product", width: "180px" },
+                { label: "상품명", path: "Product", width: "200px" },
                 {
                     label: "갯수",
                     parts: ["Weight", "WUnit"], // 두 경로를 사용
@@ -315,30 +357,34 @@ sap.ui.define([
                             // 기본 타입 설정 또는 예외 처리
                             calendarDayType = CalendarDayType.Type01; // 또는 다른 기본 타입 설정
                         }
-                        if((item.Pono.startsWith('IPO'))||(item.Pono.startsWith('KPO'))){
-                            if((item.OrderDate != "" && item.DueDate != "" && item.InvoiceNum != "")){
-                                oData.appointments.push({
-                                    title: item.Product + "  [ " + year_o + "/" + (month_o+1) + "/" + date_o 
-                                                        + " ~ " + year_d + "/" + (month_d+1) + "/" + date_d + " ]",
-                                    text: item.Product,
-                                    type: calendarDayType,
-                                    startDate: UI5Date.getInstance(year_o, month_o, date_o),
-                                    endDate: UI5Date.getInstance(year_d, month_d, date_d),
-                                    icon: icon
-                                });
-                            }
+                        if ((item.Pono.startsWith('IPO') || item.Pono.startsWith('KPO')) &&
+                            item.OrderDate !== "" &&
+                            item.DueDate !== "" &&
+                            item.InvoiceNum !== "" &&
+                            (item.InvoiceNum.startsWith('INV') || item.InvoiceNum.startsWith('CNV')) &&
+                            item.Pono !== "") {
+
+                            oData.appointments.push({
+                                title: item.Product + "  [ " + year_o + "/" + (month_o + 1) + "/" + date_o +
+                                    " ~ " + year_d + "/" + (month_d + 1) + "/" + date_d + " ]",
+                                text: item.Product,
+                                type: calendarDayType,
+                                startDate: UI5Date.getInstance(year_o, month_o, date_o),
+                                endDate: UI5Date.getInstance(year_d, month_d, date_d),
+                                icon: icon
+                            });
                         }
-                        
-    
                     }.bind(this)); // `this`를 유지하기 위해 바인딩
 
                     oModel.setProperty("/appointments", oData.appointments); // 수정된 부분
                     MainData = JSON.parse(JSON.stringify(oModel.getData()));
+                    this.setCount();
                 }.bind(this), // `this`를 유지하기 위해 바인딩
                 error: function(oError) {
                     MessageToast.show("Error loading data");
                 }
             });
+            
         },    
 
         formatDate: function(date) {

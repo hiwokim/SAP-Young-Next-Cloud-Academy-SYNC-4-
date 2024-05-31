@@ -3,28 +3,48 @@
 	xmlns:core="sap.ui.core"
 	xmlns:unified="sap.ui.unified"
 	xmlns="sap.m">
+	
     <ScrollContainer
 		height="100%"
 		width="100%"
 		vertical="true"
 		focusable="true">
         <VBox class="sapUiSmallMargin">
-		<HBox alignItems="Center">
-            <Text text="검색조건 : " class="sapUiTinyMarginEnd"/>
-			<Button text="전체" type="Emphasized" press="onAllButtonClick" class="sapUiTinyMarginEnd" />
-            <Button text="생두" type="Emphasized" press="onCoffeeButtonClick" class="sapUiTinyMarginEnd" />
-            <Button text="포장재" type="Emphasized" press="onPackagingButtonClick"/>
-		</HBox>
+		<IconTabHeader id="iconTabBar4" class="sapUiResponsiveContentPadding" select=".onTabSelect">
+			<items>
+				<IconTabFilter
+					id="allTab"
+					key="all"
+					icon="sap-icon://multiselect-all"
+					count="{/allCount}"
+					text="전체">
+				</IconTabFilter>
+				<IconTabFilter
+					id="coffeeTab"
+					key="coffee"
+					icon="sap-icon://globe"
+					count="{/coffeeCount}"
+					text="생두">
+				</IconTabFilter>
+				<IconTabFilter
+					id="packagingTab"
+					key="packaging"
+					icon="sap-icon://product"
+					count="{/packagingCount}"
+					text="포장재">
+				</IconTabFilter>
+			</items>
+		</IconTabHeader>
+		
 		<SinglePlanningCalendar
 			id="SPC1"
-			class="sapUiSmallMarginTop"
-			title="주문 및 납기 일정"
 			startDate="{path: '/startDate'}"
 			stickyMode="{settings>/stickyMode}"
 			appointments="{path: '/appointments'}"
 			moreLinkPress="moreLinkPress"
 			appointmentSelect="onAppointmentClick"
 			>
+			<!-- title="주문 및 납기 일정" -->
 			<views>
 				<SinglePlanningCalendarMonthView key="MonthView" title="Month"/>
 			</views>

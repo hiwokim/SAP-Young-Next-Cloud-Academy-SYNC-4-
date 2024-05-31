@@ -11,12 +11,14 @@ sap.ui.define([
 ], function (Controller, JSONModel, ODataModel, Filter, FilterOperator, MessageToast, Dialog, Image, HBox) {
     "use strict";
     var Mdata;
-
+    var Sdata;
+    var filteredData; // 필터링된 데이터
+    var check = 0;
     return Controller.extend("sync.projectcust.controller.View1", {
         onInit: function () {
             var oDataModel = new ODataModel("/sap/opu/odata/sap/ZGW_ZBC10_SRV/", true);
             var oView = this.getView();
-
+        
             oDataModel.read("/ZBCT_CUST_MSet", {
                 success: function(oData) {
                     // JSON 모델에 데이터 설정
@@ -24,11 +26,57 @@ sap.ui.define([
                     oView.setModel(oJSONModel);
                     Mdata = oData.results;
                     this.onFilterByMatnr("ALL"); // 필터링 적용
+                    
                 }.bind(this),
                 error: function(oError) {
                     MessageToast.show("데이터 로드 오류");
                 }
             });
+        },
+        setCount: function() {
+            var oData = filteredData; // Mdata를 oData에 대입합니다.
+            var allCount = oData.length;
+            var coffeeCount = oData.filter(function(item) {
+                return item.Matnr.startsWith('RM');
+            }).length;
+
+            var packagingCount = oData.filter(function(item) {
+                return item.Matnr.startsWith('PM');
+            }).length;
+
+            var venderCount = oData.filter(function(item) {
+                return item.Matnr.startsWith('FG');
+            }).length;
+        
+            var oAllTab = this.byId("allTab");
+            oAllTab.setCount(allCount.toString());
+        
+            var oCoffeeTab = this.byId("coffeeTab");
+            oCoffeeTab.setCount(coffeeCount.toString());
+        
+            var oPackagingTab = this.byId("packagingTab");
+            oPackagingTab.setCount(packagingCount.toString());
+
+            var oVenderTab = this.byId("venderTab");
+            oVenderTab.setCount(venderCount.toString());
+        },
+        onTabSelect: function(oEvent) {
+            var sKey = oEvent.getParameter("key");
+
+            switch (sKey) {
+                case "all":
+                    this.onAllFilter();
+                    break;
+                case "coffee":
+                    this.onImportVendorFilter();
+                    break;
+                case "packaging":
+                    this.onDomesticVendorFilter();
+                    break;
+                case "vender":
+                    this.onCustomerFilter();
+                    break;
+            }
         },
 
         onImportVendorFilter: function() {
@@ -48,7 +96,7 @@ sap.ui.define([
         },
 
         onFilterByMatnr: function(matnr) {
-            var Sdata;
+            
             if (matnr === "ALL") {
                 Sdata = Mdata;
             } else {
@@ -61,6 +109,11 @@ sap.ui.define([
             Sdata = Array.from(
                 new Map(Sdata.map(item => [item.PartnerId, item])).values()
             );
+            if(check === 0){
+                filteredData = Sdata;
+                check = 1;
+            }
+            this.setCount(); // 데이터 로드 후 setCount 호출
 
             // 필터링된 데이터를 JSON 모델에 설정
             var oFilteredModel = new JSONModel({ results: Sdata });
@@ -95,9 +148,9 @@ sap.ui.define([
                             justifyContent: "Center", // 아이콘을 가운데 정렬
                             items: [
                                 new sap.ui.core.Icon({
-                                    src: "sap-icon://SAP-icons-TNT/escalation-end-event",
-                                    size: "2rem", // 아이콘 크기 설정
-                                    color: "green",
+                                    src: "sap-icon://map-3",
+                                    size: "1.5rem", // 아이콘 크기 설정
+                                    color: "#0054FF",
                                     press: this.onLocationCheck.bind(this) // 아이콘 클릭 이벤트 바인딩
                                 })
                             ]

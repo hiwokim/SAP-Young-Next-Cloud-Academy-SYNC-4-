@@ -2,26 +2,48 @@
     xmlns:mvc="sap.ui.core.mvc"
     xmlns="sap.m"
     controllerName="sync.projectcust.controller.View1">
+
     <Page title="{i18n>title}">
+        <IconTabHeader id="iconTabBar4" class="sapUiResponsiveContentPadding" select=".onTabSelect">
+            <items>
+                <IconTabFilter
+                    id="allTab"
+                    key="all"
+                    icon="sap-icon://multiselect-all"
+                    count="{/allCount}"
+                    text="전체">
+                </IconTabFilter>
+                <IconTabFilter
+                    id="venderTab"
+                    key="vender"
+                    icon="sap-icon://group"
+                    count="{/venderCount}"
+                    text="고객사">
+                </IconTabFilter>
+                <IconTabFilter
+                    id="coffeeTab"
+                    key="coffee"
+                    icon="sap-icon://globe"
+                    count="{/coffeeCount}"
+                    text="생두">
+                </IconTabFilter>
+                <IconTabFilter
+                    id="packagingTab"
+                    key="packaging"
+                    icon="sap-icon://product"
+                    count="{/packagingCount}"
+                    text="포장재">
+                </IconTabFilter>
+            </items>
+        </IconTabHeader>
         <content>
             <VBox>
                 <Table id="customerTable" inset="false">
-                    <headerToolbar>
-                        <Toolbar>
-                            <HBox alignItems="Center" justifyContent="Start" fitContainer="true" >
-                                <Text text="조회조건 : " class="sapUiTinyMarginEnd"/>
-                                <Button text="전체" type="Emphasized" press=".onAllFilter" class="sapUiTinyMarginEnd"/>
-                                <Button text="수입처" type="Emphasized" press=".onImportVendorFilter" class="sapUiTinyMarginEnd"/>
-                                <Button text="국내처" type="Emphasized" press=".onDomesticVendorFilter" class="sapUiTinyMarginEnd"/>
-                                <Button text="고객사" type="Emphasized" press=".onCustomerFilter"/>
-                            </HBox>
-                        </Toolbar>
-                    </headerToolbar>
                     <columns>
-                        <Column hAlign="Center">
+                        <Column hAlign="Center" width="120px">
                             <Text text="이미지" />
                         </Column>
-                        <Column hAlign="Center">
+                        <Column hAlign="Center" width="150px">
                             <Text text="고객 ID"/>
                         </Column>
                         <Column hAlign="Center" width="150px">
@@ -30,24 +52,18 @@
                         <Column hAlign="Center">
                             <Text text="평점"/>
                         </Column>
-                        <Column hAlign="Center">
+                        <Column hAlign="Center" width="120px">
                             <Text text="사업자등록번호"/>
                         </Column>
-                        <Column hAlign="Center">
+                        <Column hAlign="Center" width="150px">
                             <Text text="전화번호"/>
                         </Column>
                         <Column hAlign="Center" width="380px">
                             <Text text="주소"/>
                         </Column>
-                        <Column hAlign="Center">
+                        <Column hAlign="Center" width="70px">
                             <Text text="위치"/>
                         </Column>
-                        <!-- <Column>
-                            <Text text="Material Number" class="centeredHeader"/>
-                        </Column>
-                        <Column>
-                            <Text text="Material Name" class="centeredHeader"/>
-                        </Column> -->
                     </columns>
                     <items>
                         

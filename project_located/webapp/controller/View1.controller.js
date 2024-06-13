@@ -163,8 +163,8 @@ sap.ui.define([
                             const iconUrl = "../img/ship2.jpg";
                             const iconElement = marker.content;
                             iconElement.style.backgroundImage = `url(${iconUrl})`;
-                            iconElement.style.width = '60px';
-                            iconElement.style.height = '60px';
+                            iconElement.style.width = '40px';
+                            iconElement.style.height = '40px';
                             iconElement.style.backgroundSize = 'contain';
                             iconElement.style.backgroundRepeat = 'no-repeat';
                             iconElement.style.backgroundPosition = '0px', '-20px';
@@ -204,7 +204,7 @@ sap.ui.define([
                                                 <b>포워더 번호 : </b>${location.Forwarder}<br>
                                                 <b>선박 번호 : </b>${location.Imo}<br>
                                                 <b>선박명 : </b>${location.Vessel}<br>
-                                                <b>선박무게 : </b>${location.ShipWeight}${location.ShipWeightUnit}<br>
+                                                <b>선박무게 : </b>${location.ShipWeight}톤<br>
                                                 <b>수출항 : </b>${location.Eptnr}<br>
                                                 <b>수입항 : </b>${location.Podnr}<br>
                                                 <b>도착 예정일 : </b>${formattedEta}<br>
@@ -275,14 +275,14 @@ sap.ui.define([
                         // 해당 좌표로 지도 이동
                         map.panTo(marker.position);
                         
-                        // // 인포윈도우 표시
-                        // var infowindow = new google.maps.InfoWindow({
-                        //     content: "<div><strong>" + location.name + "</strong>"
-                        // });
-                        // infowindow.open(map, marker);
+                        // 인포윈도우 표시
+                        var infowindow = new google.maps.InfoWindow({
+                            content: "<div><strong>" + location.name + "</strong>"
+                        });
+                        infowindow.open(map, marker);
 
-                        // // 클릭된 마커의 인포윈도우를 마커 객체에 저장
-                        // marker.infowindow = infowindow;
+                        // 클릭된 마커의 인포윈도우를 마커 객체에 저장
+                        marker.infowindow = infowindow;
                     });
 
                     // 클릭된 마커를 제외한 다른 모든 마커의 인포윈도우 닫는 함수
@@ -311,7 +311,16 @@ sap.ui.define([
                         geodesic: true,
                         strokeColor: strokeColor,
                         strokeOpacity: 0.5,
-                        strokeWeight: 2
+                        strokeWeight: 2,
+                        icons: [{
+                            icon: {
+                                path: 'M 0,-1 0,1',
+                                strokeOpacity: 1,
+                                scale: 2
+                            },
+                            offset: '0',
+                            repeat: '40px'
+                        }]
                     });
 
                     polyline.setMap(map);

@@ -4,38 +4,48 @@
     controllerName="sync.projectcust.controller.View1">
 
     <Page title="{i18n>title}">
-        <IconTabHeader id="iconTabBar4" class="sapUiResponsiveContentPadding" select=".onTabSelect">
-            <items>
-                <IconTabFilter
-                    id="allTab"
-                    key="all"
-                    icon="sap-icon://multiselect-all"
-                    count="{/allCount}"
-                    text="전체">
-                </IconTabFilter>
-                <IconTabFilter
-                    id="venderTab"
-                    key="vender"
-                    icon="sap-icon://group"
-                    count="{/venderCount}"
-                    text="고객사">
-                </IconTabFilter>
-                <IconTabFilter
-                    id="coffeeTab"
-                    key="coffee"
-                    icon="sap-icon://globe"
-                    count="{/coffeeCount}"
-                    text="생두">
-                </IconTabFilter>
-                <IconTabFilter
-                    id="packagingTab"
-                    key="packaging"
-                    icon="sap-icon://product"
-                    count="{/packagingCount}"
-                    text="포장재">
-                </IconTabFilter>
-            </items>
-        </IconTabHeader>
+        <VBox class="sapUiResponsiveContentPadding">
+            <!-- IconTabHeader 안에 검색 필드 추가 -->
+            
+            <IconTabHeader id="iconTabBar4" select=".onTabSelect">
+                <items>
+                    <IconTabFilter
+                        id="allTab"
+                        key="all"
+                        icon="sap-icon://multiselect-all"
+                        count="{/allCount}"
+                        text="전체">
+                    </IconTabFilter>
+                    <IconTabFilter
+                        id="venderTab"
+                        key="vender"
+                        icon="sap-icon://group"
+                        count="{/venderCount}"
+                        text="고객사">
+                    </IconTabFilter>
+                    <IconTabFilter
+                        id="coffeeTab"
+                        key="coffee"
+                        icon="sap-icon://globe"
+                        count="{/coffeeCount}"
+                        text="생두">
+                    </IconTabFilter>
+                    <IconTabFilter
+                        id="packagingTab"
+                        key="packaging"
+                        icon="sap-icon://product"
+                        count="{/packagingCount}"
+                        text="포장재">
+                    </IconTabFilter>
+                </items>
+            </IconTabHeader>
+            <SearchField
+                id="searchField"
+                width="400px"
+                placeholder="검색..."
+                search=".onSearch"
+                liveChange=".onLiveChange"/>
+        </VBox>
         <content>
             <VBox>
                 <Table id="customerTable" inset="false">

@@ -2,11 +2,11 @@
 
 specVersion: "3.1"
 metadata:
-  name: sync.projectporead
+  name: projectlocated
 type: application
 framework:
   name: SAPUI5
-  version: 1.124.0
+  version: 1.124.1
   libraries:
     - name: sap.m
     - name: sap.ui.core
@@ -33,9 +33,6 @@ server:
           - path: /sap
             url: http://edu.bgis.co.kr:8001/
             client: '100'
-          - path: /sap
-            url: http://edu.bgis.co.kr:8001/
-            client: '100'
     - name: sap-fe-mockserver
       beforeMiddleware: csp
       configuration:
@@ -49,5 +46,5 @@ server:
     - name: fiori-tools-preview
       afterMiddleware: fiori-tools-appreload
       configuration:
-        component: sync.projectporead
+        component: projectlocated
         ui5Theme: sap_horizon

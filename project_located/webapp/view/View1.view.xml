@@ -1,0 +1,20 @@
+<mvc:View controllerName="projectlocated.controller.View1"
+    xmlns:mvc="sap.ui.core.mvc" displayBlock="true"
+    xmlns="sap.m">
+    <Page id="page" title="{i18n>title}">
+        <content>
+            <VBox>
+                <VBox id="mapContainer" width="100%" height="100%"/>
+                
+                <!-- <Select id="countrySelect" change="onCountrySelectChange">
+                    <core:Item key="BR" text="브라질"/>
+                    <core:Item key="CO" text="콜롬비아"/>
+                    <core:Item key="CR" text="코스타리카"/>
+                    <core:Item key="ET" text="에티오피아"/>
+                    <core:Item key="KE" text="케냐"/>
+                </Select> -->
+            </VBox>
+        </content>
+    </Page>
+</mvc:View>
+

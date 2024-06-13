@@ -14,6 +14,24 @@ sap.ui.define([
     var Sdata;
     var filteredData; // 필터링된 데이터
     var check = 0;
+    var vender = [
+        { code: "CUS0000000001", address: "https://cdnweb01.wikitree.co.kr/webdata/editor/202206/23/img_20220623212558_f01214d4.webp" },
+        { code: "CUS0000000002", address: "https://img.79plus.co.kr/megahp/common/img/bi_logo1.png" },
+        { code: "CUS0000000003", address: "https://www.denews.co.kr/news/photo/202007/14240_15730_2341.png" },
+        { code: "CUS0000000004", address: "https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FycQDN%2FbtrLYkSsKlx%2FhwoNK8UTIB0Deoku8Spo51%2Fimg.png" },
+        { code: "CUS0000000005", address: "https://i.namu.wiki/i/G4gfkTAviaRlio-_S94LCA8UwElL79Uw6I3veA7trpc7t2SUvryDeGluuFNgSld8ko-ecrvonWfN7U-1ao25MP2U5tpEFyvXxaok0oWb-uQuTlE_TZWjCjk6D-xI2FqoLF2NkxgDIENH1KEkO1bJFA.svg" },
+        { code: "VENBR001", address: "https://godomall.speedycdn.net/db0fd08ec1580819a26ad375da930b0d/goods/1000001581/image/detail/1000001581_detail_023.jpg" },
+        { code: "VENBR002", address: "https://godomall.speedycdn.net/db0fd08ec1580819a26ad375da930b0d/goods/1000001196/image/detail/1000001196_detail_017.jpg" },
+        { code: "VENCO001", address: "https://godomall.speedycdn.net/db0fd08ec1580819a26ad375da930b0d/goods/1000000395/image/detail/1000000395_detail_057.jpg" },
+        { code: "VENCO002", address: "https://godomall.speedycdn.net/db0fd08ec1580819a26ad375da930b0d/goods/1000000306/image/detail/1000000306_detail_037.jpg" },
+        { code: "VENCR001", address: "https://godomall.speedycdn.net/db0fd08ec1580819a26ad375da930b0d/goods/1000000625/image/detail/1000000625_detail_032.jpg" },
+        { code: "VENCR002", address: "https://godomall.speedycdn.net/db0fd08ec1580819a26ad375da930b0d/goods/1000000234/image/detail/1000000234_detail_047.jpg" },
+        { code: "VENET001", address: "https://godomall.speedycdn.net/db0fd08ec1580819a26ad375da930b0d/goods/1000000611/image/detail/1000000611_detail_05.jpg" },
+        { code: "VENET002", address: "https://godomall.speedycdn.net/db0fd08ec1580819a26ad375da930b0d/goods/1000000574/image/detail/1000000574_detail_073.jpg" },
+        { code: "VENKE001", address: "https://godomall.speedycdn.net/db0fd08ec1580819a26ad375da930b0d/goods/1000000582/image/detail/1000000582_detail_08.jpg" },
+        { code: "VENKE002", address: "https://godomall.speedycdn.net/db0fd08ec1580819a26ad375da930b0d/goods/1000000992/image/detail/1000000992_detail_053.jpg" },
+        { code: "VENPM001", address: "https://cdn-pro-web-212-188.cdn-nhncommerce.com/paipack1_godomall_com/data/goods/20/03/11/1000000117/1000000117_add2_091.png" },
+    ];
     return Controller.extend("sync.projectcust.controller.View1", {
         onInit: function () {
             var oDataModel = new ODataModel("/sap/opu/odata/sap/ZGW_ZBC10_SRV/", true);
@@ -33,6 +51,29 @@ sap.ui.define([
                 }
             });
         },
+        onSearch: function(oEvent) {
+            var sQuery = oEvent.getParameter("query");
+            this._filterTable(sQuery);
+        },
+
+        onLiveChange: function(oEvent) {
+            var sQuery = oEvent.getParameter("newValue");
+            this._filterTable(sQuery);
+        },
+
+        _filterTable: function(sQuery) {
+            var oTable = this.byId("customerTable");
+            var oBinding = oTable.getBinding("items");
+            var aFilters = [];
+        
+            if (sQuery && sQuery.length > 0) {
+                var oCustomerIdFilter = new Filter("PartnerId", FilterOperator.Contains, sQuery);
+                aFilters.push(oCustomerIdFilter);
+            }
+        
+            oBinding.filter(aFilters);
+        },
+        
         setCount: function() {
             var oData = filteredData; // Mdata를 oData에 대입합니다.
             var allCount = oData.length;
@@ -62,6 +103,9 @@ sap.ui.define([
         },
         onTabSelect: function(oEvent) {
             var sKey = oEvent.getParameter("key");
+
+            var oSearchField = this.byId("searchField"); // SearchField의 ID가 "searchField"라고 가정
+            oSearchField.setValue("");
 
             switch (sKey) {
                 case "all":
@@ -105,7 +149,7 @@ sap.ui.define([
                 });
             }
 
-                // PartnerId 기준으로 중복 제거
+            // PartnerId 기준으로 중복 제거
             Sdata = Array.from(
                 new Map(Sdata.map(item => [item.PartnerId, item])).values()
             );
@@ -130,9 +174,16 @@ sap.ui.define([
                             src: {
                                 path: "filteredModel>PartnerId",
                                 formatter: function (partnerId) {
-                                    var imageUrl = "../img/" + partnerId + ".jpg";
+                                    var imageUrl;
+                                    for (var i = 0; i < vender.length; i++) {
+                                        if (vender[i].code === partnerId) {
+                                            imageUrl = vender[i].address;
+                                        }
+                                    }
+                                    
                                     return imageUrl;
                                 }
+                            
                             },
                             width: "100px",
                             height: "auto",
@@ -140,7 +191,18 @@ sap.ui.define([
                         }),
                         new sap.m.ObjectIdentifier({ text: "{filteredModel>PartnerId}" }),
                         new sap.m.Text({ text: "{filteredModel>PartnerName}" }),
-                        new sap.m.RatingIndicator({ value: "{filteredModel>Rating}", iconSize: "1rem", editable: false, enabled: false }), // 수정 불가능하고 비활성화 설정
+                        new sap.m.RatingIndicator({
+                            value: {
+                                path: "filteredModel>Rating",
+                                formatter: function(sValue) {
+                                    // sValue가 문자열이면 부동 소수점으로 변환하여 반환
+                                    return parseFloat(sValue);
+                                }
+                            },
+                            iconSize: "1rem",
+                            editable: false,
+                            enabled: false
+                        }),
                         new sap.m.Text({ text: "{filteredModel>Crnum}" }),
                         new sap.m.Text({ text: "{filteredModel>Telno}" }),
                         new sap.m.Text({ text: "{filteredModel>Address}" }),

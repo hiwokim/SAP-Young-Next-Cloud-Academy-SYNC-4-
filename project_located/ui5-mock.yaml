@@ -1,13 +1,15 @@
+# yaml-language-server: $schema=https://sap.github.io/ui5-tooling/schema/ui5.yaml.json
+
 specVersion: "3.1"
 metadata:
-  name: sync.projectporead
+  name: projectlocated
 type: application
 server:
   customMiddleware:
     - name: fiori-tools-proxy
       afterMiddleware: compression
       configuration:
-        ignoreCertError: false
+        ignoreCertError: false # If set to true, certificate errors will be ignored. E.g. self-signed certificates will be accepted
         ui5:
           path:
             - /resources
@@ -16,16 +18,7 @@ server:
         backend:
           - path: /sap
             url: http://edu.bgis.co.kr:8001/
-            client: "100"
-          - path: /sap
-            url: http://edu.bgis.co.kr:8001/
-            client: "100"
-          - path: /sap/opu/odata/sap/ZGW_ZBC10_SRV/
-            url: http://edu.bgis.co.kr:8001/
-            client: "100"
-          - path: /sap/opu/odata/sap/ZGW_ZBC10_SRV
-            url: http://edu.bgis.co.kr:8001/
-            client: "100"
+            client: '100'
     - name: fiori-tools-appreload
       afterMiddleware: compression
       configuration:
@@ -36,5 +29,9 @@ server:
       beforeMiddleware: csp
       configuration:
         mountPath: /
-        services: []
+        services:
+          - urlPath: /sap/opu/odata/sap/ZGW_ZBC10_SRV
+            metadataPath: ./webapp/localService/metadata.xml
+            mockdataPath: ./webapp/localService/data
+            generateMockData: true
         annotations: []

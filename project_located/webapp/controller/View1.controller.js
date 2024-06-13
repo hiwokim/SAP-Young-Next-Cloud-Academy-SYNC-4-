@@ -130,6 +130,16 @@ sap.ui.define([
                     center: { lat: 8.391001, lng: 179.781130 }, // 첫 번째 위치를 중심으로 설정
                     zoom: 2.5,
                     minZoom: 2.5,
+                    // styles: [
+                    //     {
+                    //         featureType: "administrative",
+                    //         elementType: "labels.text",
+                    //         stylers: [
+                    //             { visibility: "on" }
+                    //         ]
+                    //     }
+                    // ],
+                    // mapTypeId: 'satellite', // 위성 사진으로 설정
                     mapId: "YOUR_MAP_ID" // 유효한 지도 ID 추가
                 };
     
@@ -149,15 +159,15 @@ sap.ui.define([
                                 content: document.createElement('div')
                             });
                             
-                            const iconUrl = "../img/ship.jpg";
-                            // const iconUrl = "../img/ship.jpg";
+                            // const iconUrl = "https://png.pngtree.com/png-vector/20220625/ourmid/pngtree-container-ship-icon-front-view-png-image_5398221.png";
+                            const iconUrl = "../img/ship2.jpg";
                             const iconElement = marker.content;
                             iconElement.style.backgroundImage = `url(${iconUrl})`;
-                            iconElement.style.width = '40px';
-                            iconElement.style.height = '40px';
+                            iconElement.style.width = '60px';
+                            iconElement.style.height = '60px';
                             iconElement.style.backgroundSize = 'contain';
                             iconElement.style.backgroundRepeat = 'no-repeat';
-                            iconElement.style.backgroundPosition = 'center';
+                            iconElement.style.backgroundPosition = '0px', '-20px';
 
                             function formatDate(dateStr) {
                                 if (!dateStr) return '';
@@ -178,6 +188,9 @@ sap.ui.define([
 
                             // 클릭 이벤트 추가
                             marker.addListener('click', function() {
+                                if (marker.infowindow && marker.infowindow.getMap()) {
+                                    return;
+                                }
                                 // 클릭된 마커를 제외한 다른 모든 마커의 인포윈도우 닫기
                                 closeOtherInfoWindows(marker);
                                 
@@ -187,13 +200,14 @@ sap.ui.define([
                                 // 인포윈도우 표시
                                 var infowindow = new google.maps.InfoWindow({
                                     content: `<div>
-                                                <strong>${location.Vessel}</strong><br>
-                                                <b>B/L번호 : </b>${location.BlNum}<br>
+                                                <strong>${location.Pono}</strong><br>
+                                                <b>포워더 번호 : </b>${location.Forwarder}<br>
+                                                <b>선박 번호 : </b>${location.Imo}<br>
+                                                <b>선박명 : </b>${location.Vessel}<br>
+                                                <b>선박무게 : </b>${location.ShipWeight}${location.ShipWeightUnit}<br>
                                                 <b>수출항 : </b>${location.Eptnr}<br>
                                                 <b>수입항 : </b>${location.Podnr}<br>
-                                                <b>출항일 : </b>${formattedAtd}<br>
                                                 <b>도착 예정일 : </b>${formattedEta}<br>
-                                                <b>거래일자 : </b>${formattedGdatu}
                                               </div>`
                                 });
                                 infowindow.open(map, marker);
@@ -252,20 +266,23 @@ sap.ui.define([
 
                     // 클릭 이벤트 추가
                     marker.addListener('click', function() {
+                        if (marker.infowindow && marker.infowindow.getMap()) {
+                            return;
+                        }
                         // 클릭된 마커를 제외한 다른 모든 마커의 인포윈도우 닫기
                         closeOtherInfoWindows(marker);
                         
                         // 해당 좌표로 지도 이동
                         map.panTo(marker.position);
                         
-                        // 인포윈도우 표시
-                        var infowindow = new google.maps.InfoWindow({
-                            content: "<div><strong>" + location.name + "</strong>"
-                        });
-                        infowindow.open(map, marker);
+                        // // 인포윈도우 표시
+                        // var infowindow = new google.maps.InfoWindow({
+                        //     content: "<div><strong>" + location.name + "</strong>"
+                        // });
+                        // infowindow.open(map, marker);
 
-                        // 클릭된 마커의 인포윈도우를 마커 객체에 저장
-                        marker.infowindow = infowindow;
+                        // // 클릭된 마커의 인포윈도우를 마커 객체에 저장
+                        // marker.infowindow = infowindow;
                     });
 
                     // 클릭된 마커를 제외한 다른 모든 마커의 인포윈도우 닫는 함수
@@ -286,7 +303,8 @@ sap.ui.define([
                         return new google.maps.LatLng(coord.lat, coord.lng);
                     });
 
-                    var strokeColor = getStrokeColor(index); // 각 객체에 맞는 색상을 가져오는 함수 호출
+                    var strokeColor = '#FF0000'; // 각 객체에 맞는 색상을 가져오는 함수 호출
+                    // var strokeColor = getStrokeColor(index); // 각 객체에 맞는 색상을 가져오는 함수 호출
 
                     var polyline = new google.maps.Polyline({
                         path: pathCoordinates,
